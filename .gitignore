@@ -1,4 +1,4 @@
-.venv,
-__pychache__,
-*.db,
+.venv
+__pychache__
+*.db
 *.pyc
