@@ -1,5 +1,6 @@
 
 
+# Strips whitespace, keeps user formatting
 def get_input(prompt: str) -> str:
     while True:
         raw = input(prompt)
@@ -19,13 +20,15 @@ def read_file(path: str) -> str | None:
 
         
 def main() -> None:
-    user_input = get_input("What file do you want to see? : ")
-    file = read_file(user_input)
+    while True:
+        user_input = get_input("What file do you want to see? : ")
+        file = read_file(user_input)
     
-    if file:
-        print(file)
-    else:
-        print("failed")
+        if file:
+            print(file)
+            break
+        else:
+            print("Reading failed, please try another file name")
 
 
 if __name__ == "__main__":
