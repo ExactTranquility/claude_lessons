@@ -4,7 +4,7 @@
 
 # safe_division.py
 - handles safely inputing two floats
-- displays to 2 decimal points rounded | "0"
+- displays whole numbers, or two decimal points rounded for floats
 - blocks invalid floats and dividebyzero errors
 
 # file_reader.py
