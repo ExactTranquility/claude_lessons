@@ -24,7 +24,7 @@ def main() -> None:
         user_input = get_input("What file do you want to see? : ")
         file = read_file(user_input)
     
-        if file:
+        if file is not None:
             print(file)
             break
         else:
