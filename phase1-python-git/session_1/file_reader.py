@@ -1,5 +1,14 @@
 
 
+def get_input(prompt: str) -> str:
+    while True:
+        raw = input(prompt)
+        if not raw.strip():
+            print("Field cannot be empty, try again.")
+            continue
+        return raw.strip()
+
+
 def read_file(path: str) -> str | None:
     try:
         with open(path, 'r') as f:
@@ -7,12 +16,14 @@ def read_file(path: str) -> str | None:
     except FileNotFoundError:
         print(f"File not found: {path}")
         return None
+
         
 def main() -> None:
-    user_input = read_file("text.txt")
+    user_input = get_input("What file do you want to see? : ")
+    file = read_file(user_input)
     
-    if user_input:
-        print(user_input)
+    if file:
+        print(file)
     else:
         print("failed")
 
