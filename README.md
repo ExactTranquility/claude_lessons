@@ -10,3 +10,8 @@
 # file_reader.py
     - get safe user input with whitespace stripped
     - prompts to retry until the path is valid
+    
+# retry_number_input.py
+    - get_integer function loops until valid input
+    - valid min and max number assigned in parameters
+    - can be used as a standalone helper module
