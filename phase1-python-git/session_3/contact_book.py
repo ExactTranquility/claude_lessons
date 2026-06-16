@@ -77,26 +77,30 @@ def handle_menu_input(prompt: str, menu: MenuDict) -> None:
         print("Invalid menu option")
 
 
-def add_contact():
-    pass
-            
-
-def list_contact():
-    pass
-
-def find_contact():
-    pass
-
-def delete_contact():
-    pass
-
 def main() -> None:
     running = True
     contacts = load_contacts(SAVE_FILE)
 
+    def add_contact():
+        pass
+                
+
+    def list_contact():
+        print(contacts)
+
+
+    def find_contact():
+        pass
+
+
+    def delete_contact():
+        pass
+
+
     def exit_program() -> None:
         nonlocal running
         running = False
+    
     
     menu: MenuDict = {
         "1" : {
