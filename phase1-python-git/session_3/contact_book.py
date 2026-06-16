@@ -1,8 +1,4 @@
 ### TODO
-# # load and save contacts to a persistent JSON storage
-# save function
-# load function
-
 # # Add contacts
 # List contacts
 # find contact
@@ -83,9 +79,14 @@ def main() -> None:
 
     
     def find_contact():
-        pass
-
+        user_input = get_non_empty("Name of contact : ")
+        person = next((contact for contact in contacts if contact.get("name") == user_input), None)
+        if person is not None:
+            print(person)
+            return
+        print("That person is not in your contact list")
     
+
     def add_contact():
         pass
              
