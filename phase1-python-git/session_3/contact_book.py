@@ -81,17 +81,18 @@ def main() -> None:
     running = True
     contacts = load_contacts(SAVE_FILE)
 
-    def add_contact():
-        pass
-                
-
-    def list_contact():
-        print(contacts)
-
-
+    
     def find_contact():
         pass
 
+    
+    def add_contact():
+        pass
+             
+    
+    def list_contact():
+        print(contacts)
+    
 
     def delete_contact():
         pass
@@ -104,14 +105,22 @@ def main() -> None:
     
     menu: MenuDict = {
         "1" : {
-            "label" : "Add contact",
-            "command" : add_contact
+            "label" : "Search contact",
+            "command" : find_contact
         },
         "2" : {
+            "label" : "Add new contact",
+            "command" : add_contact
+        },
+        "3" : {
             "label" : "List contacts",
             "command" : list_contact
         },
-        "3" : {
+        "4" : {
+            "label" : "Delete contact",
+            "command" : delete_contact
+        },
+        "5" : {
             "label" : "Exit Program",
             "command" : exit_program
         }
