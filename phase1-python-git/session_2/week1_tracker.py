@@ -36,6 +36,14 @@ def reprompt(reason: str) -> bool:
     return user_input in ["Yes", "Y"]
         
 
+def e_check(check : list) -> bool:
+    if not check:
+        print("The list is empty!")
+        return True
+    return False
+    
+
+
 def add_item() -> None:
     while True:
         user_input = get_non_empty("Please enter an item to add to the list: ")
@@ -54,16 +62,14 @@ def add_item() -> None:
 
 
 def view_items() -> None:
-    if not items:
-        print("The list is empty!")
+    if e_check(items):
         return
     for i, item in enumerate(items, 1):
         print(f"{i}.) {item}")
     
     
 def remove_item() -> None:
-    if not items:
-        print("No items in list!")
+    if e_check(items):
         return
     while True:
         user_input = get_non_empty("Please enter an item to removed from the list: ")
@@ -80,10 +86,10 @@ def remove_item() -> None:
         
     
 def count_items() -> None:
-    len_of_list = len(items)
-    if len_of_list == 0:
-        print("The list is empty!")
+    if e_check(items):
         return
+    
+    len_of_list = len(items)
     display_s = "item" if len_of_list == 1 else "items"
     print(f"Your list has {len_of_list} {display_s}")
     
