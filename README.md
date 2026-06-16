@@ -17,6 +17,8 @@
 - can be used as a standalone helper module
 
 # week1_tracker.py
--
--
--
+- a temporary list creator with retry option if you made a mistake adding or removing an item
+- declines duplicate input and blank input
+- formats input for blank list
+
+# contact_book.py
