@@ -31,19 +31,24 @@ def get_non_empty(prompt: str) -> str:
         return user_input
 
 
+def reprompt(reason: str) -> bool:
+    user_input = get_safe_input(f"{reason}, do you want to enter a different item? (Y/N) : ")
+    return user_input in ["Yes", "Y"]
+        
+
 def add_item() -> None:
     while True:
         user_input = get_non_empty("Please enter an item to add to the list: ")
             
         if user_input in items:
-            user_input = get_safe_input("Item already in list, do you want to enter a different item? (Y/N) : ")
-            if user_input in ["Yes", "Y"]:
+            if reprompt(f"{user_input} is already in the list"):
                 continue
-            else:
-                print("Returning to main menu")
-                break
+            
+            print("Returning to main menu")
+            return
+        
         items.append(user_input)
-        print("Item added succesfully, returning to main menu")
+        print(f"{user_input} added succesfully, returning to main menu")
         return
                            
 
@@ -53,7 +58,19 @@ def view_items() -> None:
     
     
 def remove_item() -> None:
-    pass    
+    while True:
+        user_input = get_non_empty("Please enter an item to removed from the list: ")
+         
+        if user_input in items:
+            items.remove(user_input)
+            print(f"{user_input} removed from list, returning to main menu")
+            return
+            
+        if reprompt(f"{user_input} is not in the list"):
+            remove_item()
+        print("Returning to main menu")
+        return
+        
     
 def count_items() -> None:
     print("Counting")
