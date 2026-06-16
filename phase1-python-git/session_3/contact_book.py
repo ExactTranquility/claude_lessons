@@ -93,9 +93,6 @@ def delete_contact():
 def main() -> None:
     running = True
     contacts = load_contacts(SAVE_FILE)
-    contacts.append({"name" : "Steven", "Number" : "(863) 656 - 6411"})
-    print(contacts)
-    save_contacts(contacts, SAVE_FILE)
 
     def exit_program() -> None:
         nonlocal running
