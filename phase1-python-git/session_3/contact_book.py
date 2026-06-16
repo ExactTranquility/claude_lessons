@@ -27,11 +27,11 @@ MenuDict = Mapping[str, MenuEntry]
 script_dir = Path(__file__).resolve().parent # needs additional learning
 SAVE_FILE = script_dir / "contacts.json"
 
-def save_contacts(contact_list: list, path: str) -> None:
+def save_contacts(contact_list: list, path: Path) -> None:
     with open(path, 'w') as f:
         json.dump(contact_list, f, indent=2)
 
-def load_contacts(path: str) -> list:
+def load_contacts(path: Path) -> list:
     try:
         with open(path, 'r') as f:
             return json.load(f)
