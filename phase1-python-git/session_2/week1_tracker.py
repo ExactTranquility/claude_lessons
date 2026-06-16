@@ -54,7 +54,11 @@ def add_item() -> None:
 
 
 def view_items() -> None:
-    print(items)
+    if not items:
+        print("The list is empty!")
+        return
+    for i, item in enumerate(items, 1):
+        print(f"{i}.) {item}")
     
     
 def remove_item() -> None:
@@ -77,6 +81,9 @@ def remove_item() -> None:
     
 def count_items() -> None:
     len_of_list = len(items)
+    if len_of_list == 0:
+        print("The list is empty!")
+        return
     display_s = "item" if len_of_list == 1 else "items"
     print(f"Your list has {len_of_list} {display_s}")
     
