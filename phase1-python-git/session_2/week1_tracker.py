@@ -8,33 +8,56 @@ class MenuEntry(TypedDict):
 MenuDict = Mapping[str, MenuEntry]
 
 
+items = []
+
+
 def clean_text(text: str) -> str:
     return " ".join(text.strip().split()).capitalize()
+    
+
+def get_safe_input(prompt: str) -> str | None:
+    user_input = clean_text(input(prompt))
+    if not user_input:
+        return None
+    return user_input
 
 
-def add_item() ->  None:
-    print("Adding")
+def get_non_empty(prompt: str) -> str:
+    while True:
+        user_input = clean_text(input(prompt))
+        if not user_input:
+            print("Entry was empty, please try again.")
+            continue
+        return user_input
+
+
+def add_item() -> None:
+    while True:
+        user_input = get_non_empty("Please enter an item to add to the list: ")
+            
+        if user_input in items:
+            user_input = get_safe_input("Item already in list, do you want to enter a different item? (Y/N) : ")
+            if user_input in ["Yes", "Y"]:
+                continue
+            else:
+                print("Returning to main menu")
+                break
+        items.append(user_input)
+        print("Item added succesfully, returning to main menu")
+        return
+                           
 
 
 def view_items() -> None:
-    print("Viewing")
+    print(items)
     
     
 def remove_item() -> None:
-    print("Removing")
-    
+    pass    
     
 def count_items() -> None:
     print("Counting")
     
-
-def get_safe_input(prompt: str) -> str | None:
-    while True:
-        user_input = clean_text(input(prompt))
-        if not user_input:
-            return None
-        return user_input
-
 
 def show_menu(menu: MenuDict) -> None:    
     print()
