@@ -12,7 +12,7 @@ items = []
 
 
 def clean_text(text: str) -> str:
-    return " ".join(text.strip().split()).capitalize()
+    return " ".join(text.strip().split()).title()
     
 
 def get_safe_input(prompt: str) -> str | None:
@@ -58,6 +58,9 @@ def view_items() -> None:
     
     
 def remove_item() -> None:
+    if not items:
+        print("No items in list!")
+        return
     while True:
         user_input = get_non_empty("Please enter an item to removed from the list: ")
          
@@ -67,13 +70,15 @@ def remove_item() -> None:
             return
             
         if reprompt(f"{user_input} is not in the list"):
-            remove_item()
+            continue
         print("Returning to main menu")
         return
         
     
 def count_items() -> None:
-    print("Counting")
+    len_of_list = len(items)
+    display_s = "item" if len_of_list == 1 else "items"
+    print(f"Your list has {len_of_list} {display_s}")
     
 
 def show_menu(menu: MenuDict) -> None:    
