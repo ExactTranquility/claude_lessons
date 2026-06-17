@@ -1,5 +1,4 @@
 ### TODO
-# # Add contacts
 # List contacts
 # find contact
 # remove contact
@@ -7,7 +6,7 @@
 import json
 from pathlib import Path
 
-from typing import Callable, TypedDict
+from typing import Callable, TypedDict, NotRequired
 from collections.abc import Mapping
 
 
@@ -17,17 +16,21 @@ class MenuEntry(TypedDict):
 
 MenuDict = Mapping[str, MenuEntry]
 
+class Contact(TypedDict):
+    name: str
+    phone_number: NotRequired[str]
+    email: NotRequired[str]
 
 #  Learned from phase1 workbook - tried finding docs breifly but could only find general stack
 # overflow questions and answers that confirmed usage
 script_dir = Path(__file__).resolve().parent # needs additional learning
 SAVE_FILE = script_dir / "contacts.json"
 
-def save_contacts(contact_list: list, path: Path) -> None:
+def save_contacts(contact_list: list[Contact], path: Path) -> None:
     with open(path, 'w') as f:
         json.dump(contact_list, f, indent=2)
 
-def load_contacts(path: Path) -> list:
+def load_contacts(path: Path) -> list[Contact]:
     try:
         with open(path, 'r') as f:
             return json.load(f)
