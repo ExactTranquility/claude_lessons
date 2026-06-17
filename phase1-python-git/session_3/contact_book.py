@@ -114,6 +114,7 @@ def main() -> None:
             contact["email"] = email
 
         contacts.append(contact)
+        save_contacts(contacts, SAVE_FILE)
         
         print("Contact added successfully, returning to main menu.")
 
@@ -137,6 +138,7 @@ def main() -> None:
             print("Contact not found, returning to main menu.")
             return
         contacts.remove(contact)
+        save_contacts(contacts, SAVE_FILE)
         print("Contact removed successfully, returning to main menu.")
 
 
