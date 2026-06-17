@@ -103,12 +103,10 @@ def main() -> None:
         name = get_non_empty("Name of new contact : ")
         phone_number = get_safe_input("Contact phone number (optional) : ")
         email = get_safe_input("Contact email (optional) : ")
-        
+
         contact = Contact(name = name)
-        if phone_number is not None:
-            contact["phone_number"] = phone_number
-        if email is not None:
-            contact["email"] = email
+        contact["phone_number"] = phone_number if phone_number is not None else "Unknown"
+        contact["email"] = email if email is not None else "Unknown"
 
         contacts.append(contact)
         save_contacts(contacts, SAVE_FILE)
