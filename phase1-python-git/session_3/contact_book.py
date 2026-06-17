@@ -91,7 +91,20 @@ def main() -> None:
     
 
     def add_contact():
-        pass
+        name = get_non_empty("Name of new contact : ")
+        phone_number = get_safe_input("Contact phone number (optional) : ")
+        email = get_safe_input("Contact email (optional) : ")
+        
+        contact = Contact(name = name)
+        if phone_number is not None:
+            contact["phone_number"] = phone_number
+        if email is not None:
+            contact["email"] = email
+
+        contacts.append(contact)
+        
+        print("Contact added successfully, returning to main menu.")
+
              
     
     def list_contact():
