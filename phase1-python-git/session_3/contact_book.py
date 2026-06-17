@@ -8,6 +8,8 @@ from pathlib import Path
 from typing import Callable, TypedDict, NotRequired
 from collections.abc import Mapping
 
+EMPTY_ERROR_MSG = "Your contact list is empty!"
+
 
 class MenuEntry(TypedDict):
     label : str
@@ -88,15 +90,23 @@ def main() -> None:
 
     
     def find_contact():
+        nonlocal contacts
+
+        if not contacts:
+            print(EMPTY_ERROR_MSG)   
+            return
+
         user_input = get_non_empty("Name of contact : ")
         person = next((contact for contact in contacts if comp_text(contact.get("name"), user_input)), None)
         if person is not None:
             print(person)
             return
-        print("That person is not in your contact list")
+        print("That person is not in your contact list, returning to main menu.")
     
 
     def add_contact():
+        nonlocal contacts
+
         name = get_non_empty("Name of new contact : ")
         phone_number = get_safe_input("Contact phone number (optional) : ")
         email = get_safe_input("Contact email (optional) : ")
@@ -114,11 +124,29 @@ def main() -> None:
              
     
     def list_contact():
+        nonlocal contacts
+
+        if not contacts:
+            print(EMPTY_ERROR_MSG)   
+            return  
         print(contacts)
     
 
     def delete_contact():
-        pass
+        nonlocal contacts
+        
+        if not contacts:
+            print(EMPTY_ERROR_MSG)
+            return
+        user_input = get_non_empty("Name of contact to be deleted : ")
+        contact = next((contact for contact in contacts if comp_text(contact.get("name"), user_input)), None)
+        
+        if contact is None:
+            print("Contact not found, returning to main menu.")
+            return
+        contacts.remove(contact)
+        print("Contact removed successfully, returning to main menu.")
+
 
 
     def exit_program() -> None:
