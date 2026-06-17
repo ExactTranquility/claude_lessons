@@ -22,3 +22,6 @@
 - formats input for blank list
 
 # contact_book.py
+- saves and loads a contact book to a local json file for persistant data
+- add/delete/find/list contact functions
+- rejects blank input when required (e.g. name, menu), optional fields default to "unknown" (e.g. phone_number and email)
