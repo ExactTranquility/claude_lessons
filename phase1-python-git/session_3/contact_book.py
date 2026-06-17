@@ -1,11 +1,7 @@
-### TODO
-# List contacts
-# remove contact
-
 import json
 from pathlib import Path
 
-from typing import Callable, TypedDict, NotRequired
+from typing import Callable, TypedDict, NotRequired, cast
 from collections.abc import Mapping
 
 EMPTY_ERROR_MSG = "Your contact list is empty!"
@@ -34,7 +30,7 @@ def save_contacts(contact_list: list[Contact], path: Path) -> None:
 def load_contacts(path: Path) -> list[Contact]:
     try:
         with open(path, 'r') as f:
-            return json.load(f)
+            return cast(list[Contact], json.load(f))
     except FileNotFoundError:
         return [] # first run - no file - return empty object
     except json.JSONDecodeError:
@@ -89,7 +85,7 @@ def main() -> None:
     contacts = load_contacts(SAVE_FILE)
 
     
-    def find_contact():
+    def find_contact() -> None:
         if not contacts:
             print(EMPTY_ERROR_MSG)   
             return
@@ -103,7 +99,7 @@ def main() -> None:
         print("That person is not in your contact list, returning to main menu.")
     
 
-    def add_contact():
+    def add_contact() -> None:
         name = get_non_empty("Name of new contact : ")
         phone_number = get_safe_input("Contact phone number (optional) : ")
         email = get_safe_input("Contact email (optional) : ")
@@ -121,7 +117,7 @@ def main() -> None:
 
              
     
-    def list_contact():
+    def list_contact() -> None:
         if not contacts:
             print(EMPTY_ERROR_MSG)   
             return  
@@ -134,7 +130,7 @@ def main() -> None:
                 print(k.capitalize(), v, sep=" : ")
     
 
-    def delete_contact():
+    def delete_contact() -> None:
         if not contacts:
             print(EMPTY_ERROR_MSG)
             return
