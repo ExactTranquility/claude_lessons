@@ -90,8 +90,6 @@ def main() -> None:
 
     
     def find_contact():
-        nonlocal contacts
-
         if not contacts:
             print(EMPTY_ERROR_MSG)   
             return
@@ -105,8 +103,6 @@ def main() -> None:
     
 
     def add_contact():
-        nonlocal contacts
-
         name = get_non_empty("Name of new contact : ")
         phone_number = get_safe_input("Contact phone number (optional) : ")
         email = get_safe_input("Contact email (optional) : ")
@@ -124,8 +120,6 @@ def main() -> None:
              
     
     def list_contact():
-        nonlocal contacts
-
         if not contacts:
             print(EMPTY_ERROR_MSG)   
             return  
@@ -133,8 +127,6 @@ def main() -> None:
     
 
     def delete_contact():
-        nonlocal contacts
-        
         if not contacts:
             print(EMPTY_ERROR_MSG)
             return
