@@ -1,6 +1,5 @@
 ### TODO
 # List contacts
-# find contact
 # remove contact
 
 import json
@@ -41,7 +40,14 @@ def load_contacts(path: Path) -> list[Contact]:
         return [] # return empty contact list object if file reads corrupt 
 
 def clean_text(text: str) -> str:
-    return " ".join(text.split()).title()
+    return " ".join(text.split())
+
+
+def comp_text(text: str, user_input: str) -> bool:
+    if text is not None and user_input is not None:
+        if text.lower() == user_input.lower():
+            return True
+    return False
 
 
 def get_safe_input(prompt: str) -> str | None:
@@ -83,7 +89,7 @@ def main() -> None:
     
     def find_contact():
         user_input = get_non_empty("Name of contact : ")
-        person = next((contact for contact in contacts if contact.get("name") == user_input), None)
+        person = next((contact for contact in contacts if comp_text(contact.get("name"), user_input)), None)
         if person is not None:
             print(person)
             return
