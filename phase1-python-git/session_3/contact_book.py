@@ -97,7 +97,8 @@ def main() -> None:
         user_input = get_non_empty("Name of contact : ")
         person = next((contact for contact in contacts if comp_text(contact.get("name"), user_input)), None)
         if person is not None:
-            print(person)
+            for k,v in person.items():
+                print(k, v, sep = ' : ')
             return
         print("That person is not in your contact list, returning to main menu.")
     
@@ -124,7 +125,13 @@ def main() -> None:
         if not contacts:
             print(EMPTY_ERROR_MSG)   
             return  
-        print(contacts)
+        print()
+        
+        contact_list = enumerate(contacts, start = 1)
+        for i, contact in contact_list:
+            print(f"{i}.) ", end='')
+            for k, v in contact.items():
+                print(k.capitalize(), v, sep=" : ")
     
 
     def delete_contact():
