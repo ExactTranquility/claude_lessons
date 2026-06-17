@@ -63,7 +63,7 @@ def get_non_empty(prompt: str) -> str:
         return user_input
         
 
-def show_menu(menu: MenuDict):
+def show_menu(menu: MenuDict) -> None:
     print()
     for i, entry in menu.items():
         print(f"{i}.) {entry['label']}")
