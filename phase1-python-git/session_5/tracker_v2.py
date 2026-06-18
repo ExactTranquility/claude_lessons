@@ -1,3 +1,14 @@
+### TODO
+# - add persistence with json
+# json load
+# json save
+# json save on every mutate
+# - display the list with index values (1-based)
+# - change functionality to remove items by index value
+# - check for invalid indexes
+# - non-numeric input with error handling
+
+
 from typing import Callable, TypedDict
 from collections.abc import Mapping
 
