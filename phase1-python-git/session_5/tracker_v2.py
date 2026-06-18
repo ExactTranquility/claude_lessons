@@ -77,6 +77,8 @@ def is_list_empty(lst : list) -> bool:
 
 
 def add_item() -> None:
+    view_items()
+    print()
     while True:
         user_input = get_non_empty("Please enter an item to add to the list: ")
             
