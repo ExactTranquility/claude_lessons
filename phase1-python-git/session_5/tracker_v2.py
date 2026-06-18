@@ -12,6 +12,23 @@
 from typing import Callable, TypedDict
 from collections.abc import Mapping
 
+import json
+from pathlib import Path
+
+script_dir = Path(__file__).resolve().parent # needs additional learning
+SAVE_FILE = script_dir / "contacts.json"
+
+def load_file(path: Path) -> list[str]:
+    try:
+        with open(path, 'r',) as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print(f"File not found at {path}, creating new list")
+        return []
+    except json.JSONDecodeError:
+        print("Warning!!! File was unable to be read, starting with empty list")
+        return []
+
 class MenuEntry(TypedDict):
     label: str
     command: Callable[[], None]
