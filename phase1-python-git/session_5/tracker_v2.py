@@ -1,9 +1,6 @@
 ### TODO
 # - add persistence with json
-# json load
-# json save
 # json save on every mutate
-# - display the list with index values (1-based)
 # - change functionality to remove items by index value
 # - check for invalid indexes
 # - non-numeric input with error handling
@@ -23,11 +20,15 @@ def load_file(path: Path) -> list[str]:
         with open(path, 'r',) as f:
             return json.load(f)
     except FileNotFoundError:
-        print(f"File not found at {path}, creating new list")
+        print(f"Warning!!! File not found at {path}, creating new list")
         return []
     except json.JSONDecodeError:
         print("Warning!!! File was unable to be read, starting with empty list")
         return []
+    
+def save_file(lst: list[str], path: Path):
+    with open(path, 'w') as f:
+        json.dump(lst, f, indent=2)
 
 class MenuEntry(TypedDict):
     label: str
@@ -36,7 +37,7 @@ class MenuEntry(TypedDict):
 MenuDict = Mapping[str, MenuEntry]
 
 
-items = []
+items = load_file(SAVE_FILE)
 
 
 def clean_text(text: str) -> str:
@@ -135,6 +136,9 @@ def main() -> None:
     
     def exit_program() -> None:
         nonlocal running
+
+        save_file(items, SAVE_FILE)
+
         running = False
     
     menu: MenuDict = {
