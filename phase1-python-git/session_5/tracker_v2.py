@@ -85,6 +85,7 @@ def add_item() -> None:
             return
         
         items.append(user_input)
+        save_file(items, SAVE_FILE)
         print(f"{user_input} added succesfully, returning to main menu")
         return
                            
@@ -105,6 +106,7 @@ def remove_item() -> None:
          
         if user_input in items:
             items.remove(user_input)
+            save_file(items, SAVE_FILE)
             print(f"{user_input} removed from list, returning to main menu")
             return
             
