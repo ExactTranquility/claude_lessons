@@ -118,6 +118,32 @@ def remove_item_by_name() -> None:
         print("Returning to main menu")
         return
 
+def remove_item_by_index() -> None:
+    if is_list_empty(items):
+        return
+    while True:
+        #  Display the list to make selection easier
+        view_items()
+        print()
+
+        # Get a valid string input that is not empty, then see if it can be converted to an int
+        user_input = get_non_empty("Please enter an item to removed from the list: ")
+        user_input = conv_int(user_input)
+
+        if user_input is None:
+            print("Sorry that was not a valid number, please try again.")
+            continue
+
+        #  Since we are displaying 1-based indexing, check if in range of user visible input then convert and remove the item
+        if user_input > 0 and user_input <= len(items):
+            items.pop(user_input - 1)
+            save_file(items, SAVE_FILE)
+            print("Item removed sucessfully! Returning to main menu")
+        else:
+            if reprompt(f"{user_input} is not a valid selection"):
+                continue
+            
+        return
     
 def count_items() -> None:
     if is_list_empty(items):
@@ -157,7 +183,7 @@ def main() -> None:
     },
     "3" : {
         "label" : "Remove item",
-        "command" : remove_item_by_name
+        "command" : remove_item_by_index
     },
     "4" : {
         "label" : "Count items",
