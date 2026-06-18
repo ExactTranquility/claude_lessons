@@ -1,5 +1,4 @@
 ### TODO
-# - add persistence with json
 # - change functionality to remove items by index value
 # - check for invalid indexes
 # - non-numeric input with error handling
@@ -102,7 +101,7 @@ def view_items() -> None:
         print(f"{i}.) {item}")
     
     
-def remove_item() -> None:
+def remove_item_by_name() -> None:
     if is_list_empty(items):
         return
     while True:
@@ -118,7 +117,7 @@ def remove_item() -> None:
             continue
         print("Returning to main menu")
         return
-        
+
     
 def count_items() -> None:
     if is_list_empty(items):
@@ -158,7 +157,7 @@ def main() -> None:
     },
     "3" : {
         "label" : "Remove item",
-        "command" : remove_item
+        "command" : remove_item_by_name
     },
     "4" : {
         "label" : "Count items",
