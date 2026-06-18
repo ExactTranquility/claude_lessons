@@ -25,3 +25,9 @@
 - saves and loads a contact book to a local json file for persistant data
 - add/delete/find/list contact functions
 - rejects blank input when required (e.g. name, menu), optional fields default to "unknown" (e.g. phone_number and email)
+
+# tracker_v2.py
+- updates week1_tracker.py
+- adds file persistence of the user's list using json
+- now calls view_list and save_file anywhere data mutates for easier use by users
+- now items are added by names, and deleted by index to reduce typos
