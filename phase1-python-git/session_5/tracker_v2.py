@@ -1,6 +1,5 @@
 ### TODO
 # - add persistence with json
-# json save on every mutate
 # - change functionality to remove items by index value
 # - check for invalid indexes
 # - non-numeric input with error handling
@@ -59,6 +58,11 @@ def get_non_empty(prompt: str) -> str:
             continue
         return user_input
 
+def conv_int(text: str) -> int | None:
+    try:
+        return int(text)
+    except ValueError:
+        return None
 
 def reprompt(reason: str) -> bool:
     user_input = get_safe_input(f"{reason}, do you want to enter a different item? (Y/N) : ")
