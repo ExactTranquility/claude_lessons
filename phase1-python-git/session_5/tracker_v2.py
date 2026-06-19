@@ -1,9 +1,3 @@
-### TODO
-# - change functionality to remove items by index value
-# - check for invalid indexes
-# - non-numeric input with error handling
-
-
 from typing import Callable, TypedDict
 from collections.abc import Mapping
 
@@ -11,7 +5,7 @@ import json
 from pathlib import Path
 
 script_dir = Path(__file__).resolve().parent # needs additional learning
-SAVE_FILE = script_dir / "contacts.json"
+SAVE_FILE = script_dir / "item_list.json"
 
 def load_file(path: Path) -> list[str]:
     try:
