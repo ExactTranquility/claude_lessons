@@ -96,7 +96,8 @@ def view_items() -> None:
     for i, item in enumerate(items, 1):
         print(f"{i}.) {item}")
     
-    
+
+# Functionality replaced by remove_item_by_index()
 def remove_item_by_name() -> None:
     if is_list_empty(items):
         return
@@ -124,19 +125,19 @@ def remove_item_by_index() -> None:
 
         # Get a valid string input that is not empty, then see if it can be converted to an int
         user_input = get_non_empty("Please enter an item to removed from the list: ")
-        user_input = conv_int(user_input)
+        index = conv_int(user_input)
 
-        if user_input is None:
+        if index is None:
             print("Sorry that was not a valid number, please try again.")
             continue
 
         #  Since we are displaying 1-based indexing, check if in range of user visible input then convert and remove the item
-        if user_input > 0 and user_input <= len(items):
-            items.pop(user_input - 1)
+        if index > 0 and index <= len(items):
+            items.pop(index - 1)
             save_file(items, SAVE_FILE)
             print("Item removed successfully! Returning to main menu")
         else:
-            if reprompt(f"{user_input} is not a valid selection"):
+            if reprompt(f"{index} is not a valid selection"):
                 continue
             
         return
