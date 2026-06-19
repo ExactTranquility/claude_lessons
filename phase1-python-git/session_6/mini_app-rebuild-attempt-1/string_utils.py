@@ -18,7 +18,7 @@ def get_clean_input(prompt: str) -> str:
     return clean_text(input(prompt))
 
 
-def get_non_empty(prompt) -> str:
+def get_non_empty(prompt: str) -> str:
     while True:
         user_input = get_clean_input(prompt)
 

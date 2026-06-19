@@ -38,7 +38,7 @@ def get_two_float() -> tuple[float, float]:
 
 
 def format_number(num: float) -> str:
-    formatted = f"{num}.2f"
+    formatted = f"{num:.2f}"
     if formatted == "0.00":
         return "0"
     return formatted
