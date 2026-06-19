@@ -62,7 +62,7 @@ def reprompt(reason: str) -> bool:
     return user_input in ["Yes", "Y"]
         
 
-def is_list_empty(lst : list) -> bool:
+def is_list_empty(lst : list[str]) -> bool:
     if not lst:
         print("The list is empty!")
         return True
