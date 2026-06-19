@@ -85,7 +85,7 @@ def add_item() -> None:
         
         items.append(user_input)
         save_file(items, SAVE_FILE)
-        print(f"{user_input} added succesfully, returning to main menu")
+        print(f"{user_input} added successfully, returning to main menu")
         return
                            
 
@@ -101,7 +101,7 @@ def remove_item_by_name() -> None:
     if is_list_empty(items):
         return
     while True:
-        user_input = get_non_empty("Please enter an item to removed from the list: ")
+        user_input = get_non_empty("Please enter an item to remove from the list: ")
          
         if user_input in items:
             items.remove(user_input)
@@ -134,7 +134,7 @@ def remove_item_by_index() -> None:
         if user_input > 0 and user_input <= len(items):
             items.pop(user_input - 1)
             save_file(items, SAVE_FILE)
-            print("Item removed sucessfully! Returning to main menu")
+            print("Item removed successfully! Returning to main menu")
         else:
             if reprompt(f"{user_input} is not a valid selection"):
                 continue
