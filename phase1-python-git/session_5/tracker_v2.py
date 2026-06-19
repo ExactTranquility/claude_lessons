@@ -1,4 +1,4 @@
-from typing import Callable, TypedDict
+from typing import Callable, TypedDict, cast
 from collections.abc import Mapping
 
 import json
@@ -10,7 +10,7 @@ SAVE_FILE = script_dir / "item_list.json"
 def load_file(path: Path) -> list[str]:
     try:
         with open(path, 'r',) as f:
-            return json.load(f)
+            return cast(list[str], json.load(f))
     except FileNotFoundError:
         print(f"Warning!!! File not found at {path}, creating new list")
         return []
@@ -18,7 +18,7 @@ def load_file(path: Path) -> list[str]:
         print("Warning!!! File was unable to be read, starting with empty list")
         return []
     
-def save_file(lst: list[str], path: Path):
+def save_file(lst: list[str], path: Path) -> None:
     with open(path, 'w') as f:
         json.dump(lst, f, indent=2)
 
