@@ -164,9 +164,6 @@ def main() -> None:
     
     def exit_program() -> None:
         nonlocal running
-
-        save_file(items, SAVE_FILE)
-
         running = False
     
     menu: MenuDict = {
