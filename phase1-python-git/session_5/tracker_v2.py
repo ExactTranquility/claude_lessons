@@ -124,7 +124,7 @@ def remove_item_by_index() -> None:
         print()
 
         # Get a valid string input that is not empty, then see if it can be converted to an int
-        user_input = get_non_empty("Please enter an item to removed from the list: ")
+        user_input = get_non_empty("Please enter an item to remove from the list: ")
         index = conv_int(user_input)
 
         if index is None:
