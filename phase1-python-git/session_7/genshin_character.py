@@ -50,7 +50,7 @@ class GenshinCharacter:
         self.weapon_refine = self._clamp(weapon_refine, self.MIN_WEAPON_REFINE, self.MAX_WEAPON_REFINE)
 
     
-    def _clamp(self, value: int, min_value: int, max_value: int):
+    def _clamp(self, value: int, min_value: int, max_value: int) -> int:
         return max(min_value, min(value, max_value))
     
 
