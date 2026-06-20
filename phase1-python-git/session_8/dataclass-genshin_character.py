@@ -39,7 +39,7 @@ class GenshinCharacter:
         return max(min_value, min(value, max_value))
     
 
-    def _ismaxed(self) -> bool:
+    def is_maxed(self) -> bool:
         return all(
                 getattr(self, field_name) == high
                 for field_name, (_, high) in self.FIELD_RANGES.items()
@@ -73,7 +73,7 @@ class GenshinCharacter:
             else:
                 print(f"{label} : {stat_value}")
 
-        print(f"{self.name} is maxed out : {self._ismaxed()}")
+        print(f"{self.name} is maxed out : {self.is_maxed()}")
         print()
 
 
@@ -115,13 +115,13 @@ class GenshinWeapon:
             return NotImplemented
         return self.level == other.level
     
-    def _ismaxed(self) -> bool:
+    def is_maxed(self) -> bool:
         return self.level == self.MAX_LEVEL and self.refine == self.MAX_REFINE
     
     def summary(self) -> None:
         print()
         print(self)
-        print(f"{self.name} is maxed out: {self._ismaxed()}")
+        print(f"{self.name} is maxed out: {self.is_maxed()}")
 
 
 
