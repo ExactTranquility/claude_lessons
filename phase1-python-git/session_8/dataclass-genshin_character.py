@@ -19,16 +19,16 @@ class GenshinCharacter:
         "constellation"     : (0, 6),
     }
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         if not self.name.strip():
             raise ValueError("Character name cannot be blank")
         self.name = self.name.strip()
 
-        for field, (low, high) in self.FIELD_RANGES.items():
-            setattr(self, field, self._clamp(getattr(self, field), low, high))
+        for field_name, (low, high) in self.FIELD_RANGES.items():
+            setattr(self, field_name, self._clamp(getattr(self, field_name), low, high))
 
 
-    def __str__(self):
+    def __str__(self) -> str:
         display_text = ""
         for label, value in self.__dict__.items():
             display_text += "{} : {}\n".format(label, value)
@@ -41,9 +41,9 @@ class GenshinCharacter:
 
     def _ismaxed(self) -> bool:
         return all(
-                getattr(self, field) == high
-                for field, (_, high) in self.FIELD_RANGES.items()
-                if field != 'constellation'
+                getattr(self, field_name) == high
+                for field_name, (_, high) in self.FIELD_RANGES.items()
+                if field_name != 'constellation'
         )
     
 
@@ -77,11 +77,11 @@ class GenshinCharacter:
         print()
 
 
-    def update_levels(self, field: str, value: int) -> None:
-        if field not in self.FIELD_RANGES:
-            raise ValueError(f"Unknown field: {field}")
-        current = getattr(self, field)
-        setattr(self, field, self._clamp(value + current, current, self.FIELD_RANGES[field][1]))
+    def update_levels(self, field_name: str, value: int) -> None:
+        if field_name not in self.FIELD_RANGES:
+            raise ValueError(f"Unknown field: {field_name}")
+        current = getattr(self, field_name)
+        setattr(self, field_name, self._clamp(value + current, current, self.FIELD_RANGES[field_name][1]))
 
 
 @dataclass
@@ -90,13 +90,13 @@ class GenshinWeapon:
     level: int = 1
     refine: int = 1
 
-    MAX_LEVEL: int = field(default=90, init=False, compare=False, repr=False)
-    MAX_REFINE: int = field(default=5, repr=False, init=False, compare=False)
+    MAX_LEVEL: ClassVar[int] = 90
+    MAX_REFINE: ClassVar[int] = 5
 
     def __post_init__(self) -> None:
         if not self.name.strip():
             raise ValueError("Name cannot be blank")
-        setattr(self, self.name, self.name.strip())
+        self.name = self.name.strip()
         self.level = max(1, min(self.level, self.MAX_LEVEL))
         self.refine = max(1, min(self.refine, self.MAX_REFINE))
 
@@ -110,8 +110,10 @@ class GenshinWeapon:
         return "{} is level {}\n{} is refined to rank {}".format(self.name, self.level, self.name, self.refine)
     
     # overwriting the default @dataclass to only comp level
-    def __eq__(self, other) -> bool:
-        return self.level == other
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, GenshinWeapon):
+            return NotImplemented
+        return self.level == other.level
     
     def _ismaxed(self) -> bool:
         return self.level == self.MAX_LEVEL and self.refine == self.MAX_REFINE
