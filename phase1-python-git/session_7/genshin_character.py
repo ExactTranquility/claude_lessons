@@ -89,7 +89,7 @@ class GenshinCharacter:
                 print(f"{i} : ", end='')
                 for _, value in value.items():
                     count += 1
-                    if count is not 1:
+                    if count != 1:
                         print("\t\t", end='')
                     print(f"{_} : {value}")
             else:
