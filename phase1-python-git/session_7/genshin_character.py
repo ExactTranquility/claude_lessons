@@ -55,7 +55,7 @@ class GenshinCharacter:
     
 
     def _ismaxed(self) -> bool:
-        return bool(
+        return (
                 self.character_lvl == self.MAX_CHARACTER_LVL
             and self.talent_lvl_basic == self.MAX_TALENT_LVL
             and self.talent_lvl_skill ==  self.MAX_TALENT_LVL
