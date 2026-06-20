@@ -63,11 +63,9 @@ class GenshinCharacter:
         print()
         for label, stat_value in stats.items():
             if isinstance(stat_value, dict):
-                count = 0
                 print(f"{label} : ", end='')
-                for sub_label, sub_value in stat_value.items():
-                    count += 1
-                    if count != 1:
+                for idx , (sub_label, sub_value) in enumerate(stat_value.items(), 0):
+                    if idx != 0:
                         print("\t\t", end='')
                     print(f"{sub_label} : {sub_value}")
             else:
