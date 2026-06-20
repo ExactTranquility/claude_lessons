@@ -57,7 +57,7 @@ class GenshinCharacter:
     def _ismaxed(self) -> bool:
         return bool(
                 self.character_lvl == self.MAX_CHARACTER_LVL
-            and self.talent_lvl_basic == self.MAX_CHARACTER_LVL
+            and self.talent_lvl_basic == self.MAX_TALENT_LVL
             and self.talent_lvl_skill ==  self.MAX_TALENT_LVL
             and self.talent_lvl_burst == self.MAX_TALENT_LVL
             and self.constellation == self.MAX_CONSTELLATION
@@ -102,7 +102,7 @@ class GenshinCharacter:
     def _upgrade(self, field: str, value: int) -> None:
         caps = {
             "character_lvl" : self.MAX_CHARACTER_LVL,
-            "talent_lvl_basic" : self.MAX_CHARACTER_LVL,
+            "talent_lvl_basic" : self.MAX_TALENT_LVL,
             "talent_lvl_skill" : self.MAX_TALENT_LVL,
             "talent_lvl_burst" : self.MAX_TALENT_LVL,
             "constellation" : self.MAX_CONSTELLATION,
