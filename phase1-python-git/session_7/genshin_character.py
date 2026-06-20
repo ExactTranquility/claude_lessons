@@ -83,17 +83,17 @@ class GenshinCharacter:
 
         
         print()
-        for i, value in stats.items():
-            if type(value) == dict:
+        for label, stat_value in stats.items():
+            if isinstance(stat_value, dict):
                 count = 0
-                print(f"{i} : ", end='')
-                for _, value in value.items():
+                print(f"{label} : ", end='')
+                for sub_label, sub_value in stat_value.items():
                     count += 1
                     if count != 1:
                         print("\t\t", end='')
-                    print(f"{_} : {value}")
+                    print(f"{sub_label} : {sub_value}")
             else:
-                print(f"{i} : {value}")
+                print(f"{label} : {stat_value}")
 
         print(f"{self.character_name} is maxed out : {self._ismaxed()}")
         print()
