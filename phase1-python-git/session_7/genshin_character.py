@@ -40,7 +40,7 @@ class GenshinCharacter:
         self.character_name = character_name.strip()
         self.weapon_name = weapon_name.strip()
 
-        self .character_lvl = self._clamp(character_lvl, self.MIN_CHARACTER_LVL, self.MAX_CHARACTER_LVL)
+        self.character_lvl = self._clamp(character_lvl, self.MIN_CHARACTER_LVL, self.MAX_CHARACTER_LVL)
         self.talent_lvl_basic = self._clamp(talent_lvl_basic, self.MIN_TALENT_LVL, self.MAX_TALENT_LVL)
         self.talent_lvl_skill = self._clamp(talent_lvl_skill, self.MIN_TALENT_LVL, self.MAX_TALENT_LVL)
         self.talent_lvl_burst = self._clamp(talent_lvl_burst, self.MIN_TALENT_LVL, self.MAX_TALENT_LVL)
