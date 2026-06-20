@@ -66,7 +66,7 @@ class GenshinCharacter:
             )
     
 
-    def _summary(self) -> None:
+    def summary(self) -> None:
         stats = {
             "Character name" : self.character_name,
             "Character level" : self.character_lvl,
@@ -99,7 +99,7 @@ class GenshinCharacter:
         print()
 
 
-    def _upgrade(self, field: str, value: int) -> None:
+    def upgrade(self, field: str, value: int) -> None:
         caps = {
             "character_lvl" : self.MAX_CHARACTER_LVL,
             "talent_lvl_basic" : self.MAX_TALENT_LVL,
@@ -118,6 +118,6 @@ class GenshinCharacter:
 
 if __name__ == "__main__":
     c = GenshinCharacter("Diluc", "Oathkeeper", character_lvl=80, weapon_lvl=80)
-    c._summary()
-    c._upgrade("talent_lvl_burst", 25)
-    c._summary()
+    c.summary()
+    c.upgrade("talent_lvl_burst", 25)
+    c.summary()
