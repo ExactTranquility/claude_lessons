@@ -1,12 +1,3 @@
-## TODO
-# safe_float
-# is_nonempty
-# get_two_float
-# format_number
-
-## Add
-# get_float
-
 from string_utils import clean_text, get_non_empty
 
 def safe_float(text: str) -> float | None:

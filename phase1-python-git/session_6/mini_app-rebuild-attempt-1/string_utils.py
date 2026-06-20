@@ -1,11 +1,3 @@
-## DONE
-# clean_text
-# word_count
-
-## Add
-# get_clean_input
-# get_non_empty
-
 def clean_text(text: str) -> str:
     return " ".join(text.split())
 

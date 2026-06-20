@@ -1,9 +1,3 @@
-## DONE
-# show_menu
-# handle_input
-# MenuEntry TypedDict
-# MenuDict type alias
-
 from typing import Callable, TypedDict 
 from collections.abc import Mapping
 

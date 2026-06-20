@@ -1,6 +1,3 @@
-## TODO
-# -menu loop with at least 3 options plus exit
-
 from menu_utils import MenuDict, show_menu, handle_menu_input
 from string_utils import get_non_empty
 
