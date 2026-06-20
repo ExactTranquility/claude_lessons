@@ -29,10 +29,10 @@ class GenshinCharacter:
 
 
     def __str__(self):
-        str = ""
+        display_text = ""
         for label, value in self.__dict__.items():
-            str += "{} : {}\n".format(label, value)
-        return str
+            display_text += "{} : {}\n".format(label, value)
+        return display_text
 
     
     def _clamp(self, value: int, min_value: int, max_value: int) -> int:
