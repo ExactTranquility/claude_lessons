@@ -24,13 +24,13 @@ class Roster(object):
 
     def remove(self, name: str) -> bool:
         idx = self._find_index_by_name(name)
-        if idx !=1:
+        if idx != -1:
             self.items_in_roster.pop(idx)
             return True
         return False
         
     def find(self, name: str) -> object | None:
-        idx = idx = self._find_index_by_name(name)
+        idx = self._find_index_by_name(name)
         return self.items_in_roster[idx] if idx != -1 else None
 
     def list_all(self) -> None:
