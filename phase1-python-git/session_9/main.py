@@ -5,11 +5,6 @@ from classes.genshin_roster import CharacterRoster, WeaponRoster
 
 if __name__ == "__main__":
     
-    # print(oathkeeper.__dict__)
-    # print(oathkeeper)
-    # print(oathkeeper == bloody_smite)
-    # oathkeeper.summary()
-    
     diluc = GenshinCharacter("Diluc", level=10)
     s = GenshinCharacter("Hat Guy", level=10)
     hu_tao = TimedCharacter("Hu Tao", level=90, talent_lvl_basic=10, talent_lvl_skill=10)

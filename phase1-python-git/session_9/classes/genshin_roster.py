@@ -5,7 +5,7 @@ from typing import ClassVar
 class Roster(object):
     items_in_roster: list[object] = field(default_factory=list)
 
-    LACK_OF_ENTRY_MSG: ClassVar = "There are no entries yet!"
+    LACK_OF_ENTRY_MSG: ClassVar[str] = "There are no entries yet!"
     def add(self, item: object) -> None:
         self.items_in_roster.append(item)
 
@@ -36,19 +36,18 @@ class Roster(object):
 
     def return_maxed(self) -> str:
         if not self.items_in_roster:
-            print(self.LACK_OF_ENTRY_MSG)
-            return ""
+            return self.LACK_OF_ENTRY_MSG
         
         maxed = "\n"
         for item in self.items_in_roster:
             if item.is_maxed():
                 maxed += "{} is maxed out!\n".format(getattr(item, 'name'))
-        return maxed
+        return maxed if maxed.strip() else "No maxed entries."
 
 @dataclass
 class CharacterRoster(Roster):
-    LACK_OF_ENTRY_MSG: ClassVar = "There are no characters yet!"
+    LACK_OF_ENTRY_MSG: ClassVar[str] = "There are no characters yet!"
 
 @dataclass
 class WeaponRoster(Roster):
-    LACK_OF_ENTRY_MSG: ClassVar = "There are no weapons yet!"
+    LACK_OF_ENTRY_MSG: ClassVar[str] = "There are no weapons yet!"
