@@ -29,7 +29,5 @@ class GenshinWeapon:
     def is_maxed(self) -> bool:
         return self.level == self.MAX_LEVEL and self.refine == self.MAX_REFINE
     
-    def summary(self) -> None:
-        print()
-        print(self)
-        print(f"{self.name} is maxed out: {self.is_maxed()}")
+    def summary(self) -> str:
+        return "\n{}\n{} is maxed out: {}".format(self ,self.name, self.is_maxed())
