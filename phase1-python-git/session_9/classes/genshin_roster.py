@@ -5,7 +5,7 @@ from typing import ClassVar
 class Roster(object):
     items_in_roster: list[object] = field(default_factory=list)
 
-    LACK_OF_ENTRY_MSG: ClassVar = "There are no characters yet!"
+    LACK_OF_ENTRY_MSG: ClassVar = "There are no entries yet!"
     def add(self, item: object) -> None:
         self.items_in_roster.append(item)
 
@@ -47,8 +47,8 @@ class Roster(object):
 
 @dataclass
 class CharacterRoster(Roster):
-    pass
+    LACK_OF_ENTRY_MSG: ClassVar = "There are no characters yet!"
 
 @dataclass
 class WeaponRoster(Roster):
-    pass
+    LACK_OF_ENTRY_MSG: ClassVar = "There are no weapons yet!"

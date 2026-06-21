@@ -34,7 +34,7 @@ if __name__ == "__main__":
 
     weapon_roster = WeaponRoster()
 
-    # weapon_roster.add(oathkeeper)
-    # weapon_roster.add(bloody_smite)
-    # print(weapon_roster.find('Oathkeeper').summary())
+    weapon_roster.add(oathkeeper)
+    weapon_roster.add(bloody_smite)
+    print(weapon_roster.find('Oathkeeper').summary())
     weapon_roster.list_all()
