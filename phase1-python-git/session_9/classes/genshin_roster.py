@@ -1,11 +1,11 @@
 from dataclasses import dataclass, field
-
-
+from typing import ClassVar
 
 @dataclass
 class Roster(object):
     items_in_roster: list[object] = field(default_factory=list)
 
+    LACK_OF_ENTRY_MSG: ClassVar = "There are no characters yet!"
     def add(self, item: object) -> None:
         self.items_in_roster.append(item)
 
@@ -16,12 +16,6 @@ class Roster(object):
                 return idx
         return -1
     
-    def _is_roster_empty(self) -> bool:
-        if not self.items_in_roster:
-            print("There are no characters yet!")
-            return True
-        return False
-
     def remove(self, name: str) -> bool:
         idx = self._find_index_by_name(name)
         if idx != -1:
@@ -34,13 +28,15 @@ class Roster(object):
         return self.items_in_roster[idx] if idx != -1 else None
 
     def list_all(self) -> None:
-        if self._is_roster_empty():
+        if not self.items_in_roster:
+            print(self.LACK_OF_ENTRY_MSG)
             return
         for item in self.items_in_roster:
             print(item.summary())
 
     def return_maxed(self) -> str:
-        if self._is_roster_empty():
+        if not self.items_in_roster:
+            print(self.LACK_OF_ENTRY_MSG)
             return ""
         
         maxed = "\n"
