@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import TypedDict, Callable
+from typing import TypedDict, Callable, Self
 
 class MenuEntry(TypedDict):
     label: str
@@ -12,7 +12,7 @@ class Menu:
     menu: list[MenuEntry] = field(default_factory=list)
 
     @classmethod
-    def from_entries(cls, *entries) -> "Menu":
+    def from_entries(cls, *entries) -> Self:
         menu_entries = []
         for label, command in entries:
             menu_entries.append({'label' : label, 'command': command})
