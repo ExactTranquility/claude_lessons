@@ -1,26 +1,23 @@
 from dataclasses import dataclass, field
 from typing import TypedDict, Callable
 
-def do_this() -> None:
-    print("Doing this")
-
-def do_that() -> None:
-    print("Doing that")
-
-def do_something() -> None:
-    print("Doing something else")
-
-
-
 class MenuEntry(TypedDict):
     label: str
     command: Callable[[], None]
 
 @dataclass
 class Menu:
-    running: bool = False
+    running: bool = True
 
     menu: list[MenuEntry] = field(default_factory=list)
+
+    @classmethod
+    def from_entries(cls, *entries) -> "Menu":
+        menu_entries = []
+        for label, command in entries:
+            menu_entries.append({'label' : label, 'command': command})
+        return cls(menu=menu_entries)
+        
 
     def add_menu_entry(self, label: str, command: Callable[[], None]) -> None:
         entry: MenuEntry = {"label" : label, "command" : command}
@@ -58,18 +55,14 @@ class Menu:
         self.running = False
 
     def run(self) -> None:
-        self.running = True
+        # self.running = True
 
         while self.running:
             self.show_menu()
             self.handle_idx_input(self.get_menu_input())
 
+@dataclass
+class MainMenu(Menu):
 
-menu = Menu()
-menu.add_menu_entry("Do this", do_this)
-menu.add_menu_entry("Do that", do_that)
-menu.add_menu_entry("Do something else", do_something)
-menu.add_menu_entry("Exit program", menu.exit_menu)
-
-
-menu.run()
+    def __post_init__(self):
+        self.menu.append({'label' : "Exit program", 'command' : self.exit_menu})

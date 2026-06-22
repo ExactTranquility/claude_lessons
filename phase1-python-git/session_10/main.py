@@ -1,35 +1,53 @@
 from classes.genshin_character import GenshinCharacter, TimedCharacter
 from classes.genshin_weapon import GenshinWeapon
 from classes.genshin_roster import CharacterRoster, WeaponRoster
+from utils.menu_utils import MainMenu
 
+
+def do_this() -> None:
+    print("Doing this")
+
+def do_that() -> None:
+    print("Doing that")
+
+def do_something() -> None:
+    print("Doing something else")
 
 if __name__ == "__main__":
     
-    diluc = GenshinCharacter("Diluc", level=10)
-    s = GenshinCharacter("Hat Guy", level=10)
-    hu_tao = TimedCharacter("Hu Tao", level=90, talent_lvl_basic=10, talent_lvl_skill=10)
-
-    character_roster = CharacterRoster()
-
-    character_roster.add(diluc)
-    character_roster.add(hu_tao)
-    character_roster.add(s)
-
-    character_roster.list_all()
-
-    character_roster.find('Hu Tao').update_levels("talent_lvl_burst", 10) # type : ignore
-
-    character_roster.list_all()
-
-    print(character_roster.return_maxed())
+    menu = MainMenu.from_entries(
+        ("Do this", do_this),
+        ("Do that", do_that),
+        ("Do something else", do_something),
+    )
+    menu.run()
 
 
-    oathkeeper = GenshinWeapon("Oathkeeper", 90, 90)
-    bloody_smite = GenshinWeapon("Bloody Smite")
+    # diluc = GenshinCharacter("Diluc", level=10)
+    # s = GenshinCharacter("Hat Guy", level=10)
+    # hu_tao = TimedCharacter("Hu Tao", level=90, talent_lvl_basic=10, talent_lvl_skill=10)
 
-    weapon_roster = WeaponRoster()
+    # character_roster = CharacterRoster()
 
-    weapon_roster.add(oathkeeper)
-    weapon_roster.add(bloody_smite)
-    print(weapon_roster.find('Oathkeeper').summary())
-    weapon_roster.list_all()
+    # character_roster.add(diluc)
+    # character_roster.add(hu_tao)
+    # character_roster.add(s)
+
+    # character_roster.list_all()
+
+    # character_roster.find('Hu Tao').update_levels("talent_lvl_burst", 10) # type : ignore
+
+    # character_roster.list_all()
+
+    # print(character_roster.return_maxed())
+
+
+    # oathkeeper = GenshinWeapon("Oathkeeper", 90, 90)
+    # bloody_smite = GenshinWeapon("Bloody Smite")
+
+    # weapon_roster = WeaponRoster()
+
+    # weapon_roster.add(oathkeeper)
+    # weapon_roster.add(bloody_smite)
+    # print(weapon_roster.find('Oathkeeper').summary())
+    # weapon_roster.list_all()
