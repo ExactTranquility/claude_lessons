@@ -45,6 +45,9 @@ class Menu:
         if user_input is None:
             print("Not a valid choice, please enter the number of the menu option you want to select.")
             return
+        if not 1 <= user_input <= len(self.menu):
+            print(f"Invalid menu option, please choose a number between 1 and {len(self.menu)}")
+            return
         
         for idx, menu_item in enumerate(self.menu):
             if  user_input - 1 == idx:
