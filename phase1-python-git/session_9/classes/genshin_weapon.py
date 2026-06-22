@@ -7,15 +7,18 @@ class GenshinWeapon:
     level: int = 1
     refine: int = 1
 
-    MAX_LEVEL: ClassVar[int] = 90
-    MAX_REFINE: ClassVar[int] = 5
+    FIELD_RANGES: ClassVar[dict[str, tuple[int, int]]] ={
+        "level" : (1, 90),
+        "refine" : (1, 5),
+    }
 
     def __post_init__(self) -> None:
         if not self.name.strip():
             raise ValueError("Name cannot be blank")
         self.name = self.name.strip()
-        self.level = max(1, min(self.level, self.MAX_LEVEL))
-        self.refine = max(1, min(self.refine, self.MAX_REFINE))
+
+        for field_name, (low, high) in self.FIELD_RANGES.items():
+            setattr(self, field_name, max(low, min(getattr(self, field_name), high)))
         
     def __str__(self) -> str:
         return "{} is level {}\n{} is refined to rank {}".format(self.name, self.level, self.name, self.refine)
@@ -26,8 +29,15 @@ class GenshinWeapon:
             return NotImplemented
         return self.level == other.level
     
+    def update_levels(self, name: str, value: int) -> None:
+        attr = getattr(self, name)
+        setattr(self, attr, max(value, min(1, ))) 
+
     def is_maxed(self) -> bool:
-        return self.level == self.MAX_LEVEL and self.refine == self.MAX_REFINE
+        return all(
+            getattr(self, field_name) == high
+            for field_name, (_, high) in self.FIELD_RANGES.items()
+        )
     
     def summary(self) -> str:
         return "\n{}\n{} is maxed out: {}".format(self ,self.name, self.is_maxed())
