@@ -7,7 +7,7 @@ class MenuEntry(TypedDict):
 
 @dataclass
 class Menu:
-    running: bool = True
+    running: bool = False
 
     menu: list[MenuEntry] = field(default_factory=list)
 
@@ -55,7 +55,7 @@ class Menu:
         self.running = False
 
     def run(self) -> None:
-        # self.running = True
+        self.running = True
 
         while self.running:
             self.show_menu()
