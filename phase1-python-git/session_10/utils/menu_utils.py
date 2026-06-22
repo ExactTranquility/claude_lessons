@@ -52,6 +52,7 @@ class Menu:
         for idx, menu_item in enumerate(self.menu):
             if  user_input - 1 == idx:
                 menu_item["command"]()
+                break
 
     def exit_menu(self) -> None:
         print("Exiting now.")
