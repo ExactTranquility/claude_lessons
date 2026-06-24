@@ -7,28 +7,6 @@ This will be a cli persistant genshin character and weapon roster with stat trac
 # peristant json data read and write
 # test first with a sample in app dataset
 
-# main menu
-# - character roster !!!DONE!!!
-#   - LATER IMPLIMENT MULIPLE ROSTERS
-#   - view rosters !!!DONE!!! - singular
-#   - reset roster !!!DONE!!!
-#       - are you sure(y/n)
-#           - delete or return to previous menu
-# - weapon roster !!!DONE!!!
-#   - LATER IMPLIMENT MULIPLE ROSTERS
-#   - view rosters !!!DONE!!! -singular
-#   - reset roster !!!DONE!!!
-#       - are you sure(y/n)
-#           - delete or return to previous menu
-# - exit_program
-
-# List all character in your roster
-# list maxed characters and unmaxed seperately?
-# Get summary of a specific character
-# Add a character
-# delete a character
-# exit back to main menu
-
 # List all weapons in your roster : maxxed and unmaxed
 # Get a summary of a specific weapon
 # add a weapon
@@ -47,10 +25,6 @@ def placeholder_function() -> None:
 
 def character_roster_main() -> None:
     character_roster = CharacterRoster()
-
-    character_roster.add(diluc)
-    character_roster.add(hu_tao)
-    character_roster.add(s)
 
     def find_handle() -> None:
         user_input = input("Name of the character you would like to see? : ").strip()
@@ -92,10 +66,6 @@ def character_roster_main() -> None:
         )
     character_main_menu.run()
 
-# Upgrade a character
-# delete a character
-# exit back to main menu
-
 
 def weapon_roster_main() -> None:
     pass
@@ -105,7 +75,7 @@ def weapon_roster_main() -> None:
 def char_rost_open() -> None:
     char_menu_select = SubMenu.from_entries(
         ("View character roster", character_roster_main),
-        ("Delete character roster", placeholder_function),
+        # ("Delete character roster", placeholder_function),
         term_on_transfer=True,
     )
     char_menu_select.run()
@@ -124,7 +94,7 @@ if __name__ == "__main__":
     
     menu = MainMenu.from_entries(
         ("Goto your character roster", char_rost_open),
-        ("Goto your weapon roster", weap_rost_open),
+        # ("Goto your weapon roster", weap_rost_open),
     )
         
     diluc = GenshinCharacter("Diluc", level=10)
