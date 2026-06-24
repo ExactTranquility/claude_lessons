@@ -67,7 +67,7 @@ class GenshinCharacter:
                     summ += f"{sub_label} : {sub_value}\n"
             else:
                 summ += f"{label} : {stat_value}\n"
-        summ += f"{self.name} is maxed out : {self.is_maxed()}\n"
+        summ += f"{self.name} is maxed out : {self.is_maxed()}"
 
         return summ
 
@@ -84,4 +84,4 @@ class TimedCharacter(GenshinCharacter):
 
     def summary(self) -> str:
         base = super().summary()
-        return f"{base}Date pulled : {self.date_added}"
+        return f"{base}\nDate pulled : {self.date_added}"

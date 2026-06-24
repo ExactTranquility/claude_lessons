@@ -8,16 +8,16 @@ This will be a cli persistant genshin character and weapon roster with stat trac
 # test first with a sample in app dataset
 
 # main menu
-# - character roster
+# - character roster !!!DONE!!!
 #   - LATER IMPLIMENT MULIPLE ROSTERS
-#   - view rosters
-#   - reset roster
+#   - view rosters !!!DONE!!! - singular
+#   - reset roster !!!DONE!!!
 #       - are you sure(y/n)
 #           - delete or return to previous menu
-# - weapon roster
+# - weapon roster !!!DONE!!!
 #   - LATER IMPLIMENT MULIPLE ROSTERS
-#   - view rosters
-#   - reset roster
+#   - view rosters !!!DONE!!! -singular
+#   - reset roster !!!DONE!!!
 #       - are you sure(y/n)
 #           - delete or return to previous menu
 # - exit_program
@@ -45,9 +45,37 @@ def placeholder_function() -> None:
     print("success")
 
 
+def character_roster_main() -> None:
+    character_roster = CharacterRoster()
+
+    character_roster.add(diluc)
+    character_roster.add(hu_tao)
+    character_roster.add(s)
+
+    character_main_menu = SubMenu.from_entries(
+        ("List all character you own", character_roster.list_all),
+        ("Search for character", placeholder_function),
+        ("Add a character", placeholder_function),
+        ("Delete a character", placeholder_function),
+        )
+    character_main_menu.run()
+
+# List all character in your roster
+# list maxed characters and unmaxed seperately?
+# Get summary of a specific character
+# Add a character
+# delete a character
+# exit back to main menu
+
+
+def weapon_roster_main() -> None:
+    pass
+
+
+
 def char_rost_open() -> None:
     char_menu_select = SubMenu.from_entries(
-        ("View character roster", placeholder_function),
+        ("View character roster", character_roster_main),
         ("Delete character roster", placeholder_function)
     )
     char_menu_select.run()
@@ -67,21 +95,15 @@ if __name__ == "__main__":
         ("Goto your character roster", char_rost_open),
         ("Goto your weapon roster", weap_rost_open),
     )
+        
+    diluc = GenshinCharacter("Diluc", level=10)
+    s = GenshinCharacter("Hat Guy", level=10)
+    hu_tao = TimedCharacter("Hu Tao", level=90, talent_lvl_basic=10, talent_lvl_skill=10)
+
     
+
     menu.run()
-
-
-    # diluc = GenshinCharacter("Diluc", level=10)
-    # s = GenshinCharacter("Hat Guy", level=10)
-    # hu_tao = TimedCharacter("Hu Tao", level=90, talent_lvl_basic=10, talent_lvl_skill=10)
-
-    # character_roster = CharacterRoster()
-
-    # character_roster.add(diluc)
-    # character_roster.add(hu_tao)
-    # character_roster.add(s)
-
-    # character_roster.list_all()
+    
 
     # character_roster.find('Hu Tao').update_levels("talent_lvl_burst", 10) # type : ignore
 

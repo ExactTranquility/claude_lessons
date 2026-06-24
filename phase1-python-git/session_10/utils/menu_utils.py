@@ -37,22 +37,23 @@ class Menu:
         except ValueError:
             return None
 
-    def handle_idx_input(self, user_input) -> None:
+    def handle_idx_input(self, user_input) -> bool:
         if not user_input:
             print("Entry cannot be empty, please try again.")
-            return
+            return False
         user_input = self._safe_int(user_input)
         if user_input is None:
             print("Not a valid choice, please enter the number of the menu option you want to select.")
-            return
+            return False
         if not 1 <= user_input <= len(self.menu):
             print(f"Invalid menu option, please choose a number between 1 and {len(self.menu)}")
-            return
+            return False
         
         for idx, menu_item in enumerate(self.menu):
             if  user_input - 1 == idx:
                 menu_item["command"]()
-                break
+                return True
+        return False
 
     def exit_menu(self) -> None:
         print("Exiting now.")
@@ -74,10 +75,16 @@ class MainMenu(Menu):
 
 @dataclass
 class SubMenu(Menu):
+    term_on_transfer: bool = True
 
     def __post_init__(self):
         self.menu.append({'label' : "Return to the previous menu", 'command' : self.exit_menu})
 
+    def handle_idx_input(self, user_input) -> None:
+        super().handle_idx_input(user_input)
+        if self.term_on_transfer:
+            self.running = False
+
     def exit_menu(self) -> None:
-        print("Returning to previous menu.")
+        print("Returning to previous menu.\n")
         self.running = False
