@@ -96,28 +96,12 @@ if __name__ == "__main__":
         ("Goto your character roster", char_rost_open),
         # ("Goto your weapon roster", weap_rost_open),
     )
-        
-    diluc = GenshinCharacter("Diluc", level=10)
-    s = GenshinCharacter("Hat Guy", level=10)
-    hu_tao = TimedCharacter("Hu Tao", level=90, talent_lvl_basic=10, talent_lvl_skill=10, talent_lvl_burst=10)
-
-    
-
     menu.run()
     
 
-    # character_roster.find('Hu Tao').update_levels("talent_lvl_burst", 10) # type : ignore
-
-    # character_roster.list_all()
-
-    # print(character_roster.return_maxed())
-
-
     # oathkeeper = GenshinWeapon("Oathkeeper", 90, 90)
     # bloody_smite = GenshinWeapon("Bloody Smite")
-
     # weapon_roster = WeaponRoster()
-
     # weapon_roster.add(oathkeeper)
     # weapon_roster.add(bloody_smite)
     # print(weapon_roster.find('Oathkeeper').summary())
