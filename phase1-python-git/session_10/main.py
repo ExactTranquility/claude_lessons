@@ -76,7 +76,8 @@ def weapon_roster_main() -> None:
 def char_rost_open() -> None:
     char_menu_select = SubMenu.from_entries(
         ("View character roster", character_roster_main),
-        ("Delete character roster", placeholder_function)
+        ("Delete character roster", placeholder_function),
+        term_on_transfer=True,
     )
     char_menu_select.run()
 
@@ -84,7 +85,8 @@ def char_rost_open() -> None:
 def weap_rost_open() -> None:
     weap_menu_select = SubMenu.from_entries(
         ("View weapon roster", placeholder_function),
-        ("Delete weapon roster", placeholder_function)
+        ("Delete weapon roster", placeholder_function),
+        term_on_transfer=True,
     )
     weap_menu_select.run()
 

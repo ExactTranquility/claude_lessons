@@ -8,15 +8,16 @@ class MenuEntry(TypedDict):
 @dataclass
 class Menu:
     running: bool = False
+    term_on_transfer: bool = False
 
     menu: list[MenuEntry] = field(default_factory=list)
 
     @classmethod
-    def from_entries(cls, *entries) -> Self:
+    def from_entries(cls, *entries, term_on_transfer: bool=False) -> Self:
         menu_entries = []
         for label, command in entries:
             menu_entries.append({'label' : label, 'command': command})
-        return cls(menu=menu_entries)
+        return cls(term_on_transfer=term_on_transfer, menu=menu_entries)
         
 
     def add_menu_entry(self, label: str, command: Callable[[], None]) -> None:
@@ -30,7 +31,7 @@ class Menu:
 
     def get_menu_input(self) -> str:
         return input("Please select a menu option : ").strip()
-    
+
     def _safe_int(self, text: str) -> int | None:
         try:
             return int(text)
@@ -59,12 +60,17 @@ class Menu:
         print("Exiting now.")
         self.running = False
 
+    def handle_transfer(self, user_input) -> None:
+        if self.handle_idx_input(user_input):
+            if self.term_on_transfer:
+                self.running = False
+
     def run(self) -> None:
         self.running = True
 
         while self.running:
             self.show_menu()
-            self.handle_idx_input(self.get_menu_input())
+            self.handle_transfer(self.get_menu_input())
 
 @dataclass
 class MainMenu(Menu):
@@ -75,15 +81,11 @@ class MainMenu(Menu):
 
 @dataclass
 class SubMenu(Menu):
-    term_on_transfer: bool = True
+    
 
     def __post_init__(self):
-        self.menu.append({'label' : "Return to the previous menu", 'command' : self.exit_menu})
-
-    def handle_idx_input(self, user_input) -> None:
-        super().handle_idx_input(user_input)
-        if self.term_on_transfer:
-            self.running = False
+        menu_string = "previous menu" if self.term_on_transfer else "main menu"
+        self.menu.append({'label' : "Return to the {}".format(menu_string), 'command' : self.exit_menu})
 
     def exit_menu(self) -> None:
         print("Returning to previous menu.\n")
