@@ -53,7 +53,7 @@ def character_roster_main() -> None:
     character_roster.add(s)
 
     character_main_menu = SubMenu.from_entries(
-        ("List all character you own", character_roster.list_all),
+        ("List all characters you own", character_roster.list_all),
         ("Search for character", placeholder_function),
         ("Add a character", placeholder_function),
         ("Delete a character", placeholder_function),
