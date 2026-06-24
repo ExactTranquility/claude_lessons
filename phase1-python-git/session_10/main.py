@@ -70,12 +70,20 @@ def character_roster_main() -> None:
         c = GenshinCharacter(name, level, talent_lvl_basic, talent_lvl_skill, talent_lvl_burst, constellation)
         character_roster.add(c)
 
+    def upgrade_handle() -> None:
+        user_input = input("Name of the character you would like to upgrade? : ").strip()
+        char: GenshinCharacter = character_roster.find(user_input)
+        print(char.FIELD_RANGES)
+        field = input("What field do you want to update? : ").strip()
+        value = int(input("What level do you want to assign?(Must be a number) : "))
+        char.update_levels(field, value)
+        
 
     character_main_menu = SubMenu.from_entries(
         ("List all characters you own", character_roster.list_all),
         ("Search for character", find_handle),
         ("Add a character", add_character_handle),
-        ("Upgrade a character", placeholder_function),
+        ("Upgrade a character", upgrade_handle),
         ("Delete a character", placeholder_function),
         )
     character_main_menu.run()
@@ -117,7 +125,7 @@ if __name__ == "__main__":
         
     diluc = GenshinCharacter("Diluc", level=10)
     s = GenshinCharacter("Hat Guy", level=10)
-    hu_tao = TimedCharacter("Hu Tao", level=90, talent_lvl_basic=10, talent_lvl_skill=10)
+    hu_tao = TimedCharacter("Hu Tao", level=90, talent_lvl_basic=10, talent_lvl_skill=10, talent_lvl_burst=10)
 
     
 
