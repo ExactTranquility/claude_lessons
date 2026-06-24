@@ -55,8 +55,8 @@ def char_rost_open() -> None:
 
 def weap_rost_open() -> None:
     weap_menu_select = SubMenu.from_entries(
-        ("View character roster", placeholder_function),
-        ("Delete character roster", placeholder_function)
+        ("View weapon roster", placeholder_function),
+        ("Delete weapon roster", placeholder_function)
     )
     weap_menu_select.run()
 
@@ -65,7 +65,7 @@ if __name__ == "__main__":
     
     menu = MainMenu.from_entries(
         ("Goto your character roster", char_rost_open),
-        ("Do that", weap_rost_open),
+        ("Goto your weapon roster", weap_rost_open),
     )
     
     menu.run()
