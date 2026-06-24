@@ -18,6 +18,21 @@ from classes.genshin_character import GenshinCharacter, TimedCharacter
 from classes.genshin_weapon import GenshinWeapon
 from classes.genshin_roster import CharacterRoster, WeaponRoster
 from utils.menu_utils import MainMenu, SubMenu
+import json
+
+def json_load() -> list:
+    try:
+        with open('characters.json', 'r') as c:
+            return [c.read()]
+    except FileNotFoundError:
+        print("!!!WARNING!!! File does not exist, starting with empty list.")
+        return []
+    except json.JSONDecodeError:
+        print("!!!WARNING!!! Data cannot be read, starting with empty list")
+        return []
+
+char_roster = json_load()
+character_roster = CharacterRoster(char_roster)
 
 def placeholder_function() -> None:
     print("success")

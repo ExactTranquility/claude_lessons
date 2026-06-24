@@ -4,6 +4,7 @@ from typing import ClassVar
 @dataclass
 class Roster(object):
     items_in_roster: list[object] = field(default_factory=list)
+    ENTRY_TYPE: ClassVar[str] = "entries"
 
     LACK_OF_ENTRY_MSG: ClassVar[str] = "There are no entries yet!"
     def add(self, item: object) -> None:
@@ -34,6 +35,15 @@ class Roster(object):
         for item in self.items_in_roster:
             print("{}\n".format(item.summary()))
 
+    def list_all(self) -> None:
+        wip: list[str] = [getattr(item, 'name') for item in self.items_in_roster if not item.is_maxed()]
+        maxed: list[str] = [getattr(item, 'name') for item in self.items_in_roster if item.is_maxed()]
+
+        print(f"\nMaxed out {self.ENTRY_TYPE} : \n----------------------")
+        print("{}".format("\n".join(maxed)))
+        print(f"\nWork in progress {self.ENTRY_TYPE} : \n----------------------")
+        print("{}".format("\n".join(wip)))
+
     def return_maxed(self) -> str:
         if not self.items_in_roster:
             return self.LACK_OF_ENTRY_MSG
@@ -47,50 +57,9 @@ class Roster(object):
 @dataclass
 class CharacterRoster(Roster):
     LACK_OF_ENTRY_MSG: ClassVar[str] = "There are no characters yet!"
-    
-    def list_all(self) -> None:
-        maxed = []
-        wip = []
-
-        for item in self.items_in_roster:
-            if item.is_maxed():
-                maxed.append(getattr(item, 'name'))
-        for item in self.items_in_roster:
-            if not item.is_maxed():
-                wip.append(getattr(item, 'name'))
-
-        print("Maxed out characters\n------------------------")
-        if not maxed:
-            print("No maxxed out characters")
-        else:
-            for item in self.items_in_roster:
-                if item.is_maxed():
-                    print(getattr(item, 'name'))
-            print()
-        print("\nIn progress characters\n------------------------")
-        if not wip:
-            print("No in progress characters")
-        else:
-            for item in self.items_in_roster:
-                if not item.is_maxed():
-                    print(getattr(item, 'name'))
-        print() 
-        
+    ENTRY_TYPE: ClassVar[str] = "characters"
 
 @dataclass
 class WeaponRoster(Roster):
     LACK_OF_ENTRY_MSG: ClassVar[str] = "There are no weapons yet!"
-
-    def list_all(self) -> None:
-        print("Maxed out characters\n------------------------")
-        for item in self.items_in_roster:
-            if item.is_maxed():
-                print(getattr(item, 'name'))
-        else:
-            print("No maxxed out characters")
-        print("\nIn progress characters\n------------------------")
-        for item in self.items_in_roster:
-            if not item.is_maxed():
-                print(getattr(item, 'name'))
-        else:
-            print("No in progress characters")
+    ENTRY_TYPE: ClassVar[str] = "weapons"
