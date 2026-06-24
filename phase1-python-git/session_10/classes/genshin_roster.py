@@ -12,7 +12,7 @@ class Roster(object):
     def _find_index_by_name(self, name: str) -> int:
         """Private helper, return the index of the item if its in the roster, otherwise return -1 for None"""
         for idx, item in enumerate(self.items_in_roster):
-            if getattr(item, 'name') == name:
+            if getattr(item, 'name').lower() == name.lower():
                 return idx
         return -1
     

@@ -52,16 +52,18 @@ def character_roster_main() -> None:
     character_roster.add(hu_tao)
     character_roster.add(s)
 
+    def find_handle() -> None:
+        user_input = input("Name of the character you would like to see? : ").strip()
+        print(character_roster.find(user_input))
+
     character_main_menu = SubMenu.from_entries(
         ("List all characters you own", character_roster.list_all),
-        ("Search for character", placeholder_function),
+        ("Search for character", find_handle),
         ("Add a character", placeholder_function),
         ("Delete a character", placeholder_function),
         )
     character_main_menu.run()
 
-# List all character in your roster
-# list maxed characters and unmaxed seperately?
 # Get summary of a specific character
 # Add a character
 # delete a character
