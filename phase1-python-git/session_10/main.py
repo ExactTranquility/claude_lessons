@@ -75,16 +75,20 @@ def character_roster_main() -> None:
         char: GenshinCharacter = character_roster.find(user_input)
         print(char.FIELD_RANGES)
         field = input("What field do you want to update? : ").strip()
-        value = int(input("What level do you want to assign?(Must be a number) : "))
+        value = int(input("What level do you want to assign? (Must be a number) : "))
         char.update_levels(field, value)
         
+    def delete_handle() -> None:
+        user_input = input("Name of the character you would like to delete? : ").strip()
+        character_roster.remove(user_input)
+        print("Character deleted successfully")
 
     character_main_menu = SubMenu.from_entries(
         ("List all characters you own", character_roster.list_all),
         ("Search for character", find_handle),
         ("Add a character", add_character_handle),
         ("Upgrade a character", upgrade_handle),
-        ("Delete a character", placeholder_function),
+        ("Delete a character", delete_handle),
         )
     character_main_menu.run()
 
