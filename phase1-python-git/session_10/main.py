@@ -1,25 +1,73 @@
+"""
+This will be a cli persistant genshin character and weapon roster with stat tracking, this is single user only for now.
+"""
+
+
+# # TODO
+# peristant json data read and write
+# test first with a sample in app dataset
+
+# main menu
+# - character roster
+#   - LATER IMPLIMENT MULIPLE ROSTERS
+#   - view rosters
+#   - reset roster
+#       - are you sure(y/n)
+#           - delete or return to previous menu
+# - weapon roster
+#   - LATER IMPLIMENT MULIPLE ROSTERS
+#   - view rosters
+#   - reset roster
+#       - are you sure(y/n)
+#           - delete or return to previous menu
+# - exit_program
+
+# List all character in your roster
+# list maxed characters and unmaxed seperately?
+# Get summary of a specific character
+# Add a character
+# delete a character
+# exit back to main menu
+
+# List all weapons in your roster : maxxed and unmaxed
+# Get a summary of a specific weapon
+# add a weapon
+# delete a weapon
+# exit back to main menu
+
+
 from classes.genshin_character import GenshinCharacter, TimedCharacter
 from classes.genshin_weapon import GenshinWeapon
 from classes.genshin_roster import CharacterRoster, WeaponRoster
-from utils.menu_utils import MainMenu
+from utils.menu_utils import MainMenu, SubMenu
+
+def placeholder_function() -> None:
+    print("success")
 
 
-def do_this() -> None:
-    print("Doing this")
+def char_rost_open() -> None:
+    char_menu_select = SubMenu.from_entries(
+        ("View character roster", placeholder_function),
+        ("Delete character roster", placeholder_function)
+    )
+    char_menu_select.run()
 
-def do_that() -> None:
-    print("Doing that")
 
-def do_something() -> None:
-    print("Doing something else")
+def weap_rost_open() -> None:
+    weap_menu_select = SubMenu.from_entries(
+        ("View character roster", placeholder_function),
+        ("Delete character roster", placeholder_function)
+    )
+    weap_menu_select.run()
+
 
 if __name__ == "__main__":
     
     menu = MainMenu.from_entries(
-        ("Do this", do_this),
-        ("Do that", do_that),
-        ("Do something else", do_something),
+        ("Goto your character roster", char_rost_open),
+        ("Do that", weap_rost_open),
     )
+    
     menu.run()
 
 

@@ -70,3 +70,14 @@ class MainMenu(Menu):
 
     def __post_init__(self):
         self.menu.append({'label' : "Exit program", 'command' : self.exit_menu})
+
+
+@dataclass
+class SubMenu(Menu):
+
+    def __post_init__(self):
+        self.menu.append({'label' : "Return to the previous menu", 'command' : self.exit_menu})
+
+    def exit_menu(self) -> None:
+        print("Returning to previous menu.")
+        self.running = False
