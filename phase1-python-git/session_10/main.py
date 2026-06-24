@@ -56,16 +56,31 @@ def character_roster_main() -> None:
         user_input = input("Name of the character you would like to see? : ").strip()
         print(character_roster.find(user_input))
 
+    def add_character_handle() -> None:
+        try:
+            name = input("Name of character : ")
+            level = int(input("Level : "))
+            talent_lvl_basic = int(input("Basic attack level : "))
+            talent_lvl_skill= int(input("Skill level : "))
+            talent_lvl_burst= int(input("Burst level : "))
+            constellation= int(input("Number of constellations : "))
+        except ValueError:
+            print("Invlaid arguements")
+
+        c = GenshinCharacter(name, level, talent_lvl_basic, talent_lvl_skill, talent_lvl_burst, constellation)
+        character_roster.add(c)
+
+
     character_main_menu = SubMenu.from_entries(
         ("List all characters you own", character_roster.list_all),
         ("Search for character", find_handle),
-        ("Add a character", placeholder_function),
+        ("Add a character", add_character_handle),
+        ("Upgrade a character", placeholder_function),
         ("Delete a character", placeholder_function),
         )
     character_main_menu.run()
 
-# Get summary of a specific character
-# Add a character
+# Upgrade a character
 # delete a character
 # exit back to main menu
 
