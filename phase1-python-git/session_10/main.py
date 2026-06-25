@@ -23,7 +23,7 @@ import json
 def json_load() -> list:
     try:
         with open('characters.json', 'r') as c:
-            return [c.read()]
+            return json.loads(c)
     except FileNotFoundError:
         print("!!!WARNING!!! File does not exist, starting with empty list.")
         return []
@@ -31,15 +31,13 @@ def json_load() -> list:
         print("!!!WARNING!!! Data cannot be read, starting with empty list")
         return []
 
-char_roster = json_load()
-character_roster = CharacterRoster(char_roster)
-
 def placeholder_function() -> None:
     print("success")
 
 
 def character_roster_main() -> None:
-    character_roster = CharacterRoster()
+    char_roster = json_load()
+    character_roster = CharacterRoster(char_roster)
 
     def find_handle() -> None:
         user_input = input("Name of the character you would like to see? : ").strip()
@@ -54,7 +52,8 @@ def character_roster_main() -> None:
             talent_lvl_burst= int(input("Burst level : "))
             constellation= int(input("Number of constellations : "))
         except ValueError:
-            print("Invlaid arguements")
+            print("Invalid arguements")
+            return
 
         c = GenshinCharacter(name, level, talent_lvl_basic, talent_lvl_skill, talent_lvl_burst, constellation)
         character_roster.add(c)
@@ -62,15 +61,21 @@ def character_roster_main() -> None:
     def upgrade_handle() -> None:
         user_input = input("Name of the character you would like to upgrade? : ").strip()
         char: GenshinCharacter = character_roster.find(user_input)
+        if char is None:
+            print("Character does not exist")
+            return
         print(char.FIELD_RANGES)
         field = input("What field do you want to update? : ").strip()
         value = int(input("What level do you want to assign? (Must be a number) : "))
         char.update_levels(field, value)
+        print()
         
     def delete_handle() -> None:
         user_input = input("Name of the character you would like to delete? : ").strip()
-        character_roster.remove(user_input)
-        print("Character deleted successfully")
+        if character_roster.remove(user_input):
+            print("Character deleted successfully\n")
+        else:
+            print("Character not deleted(Possibly mispelled?)\n")
 
     character_main_menu = SubMenu.from_entries(
         ("List all characters you own", character_roster.list_all),
