@@ -2,11 +2,7 @@
 This will be a cli persistant genshin character and weapon roster with stat tracking, this is single user only for now.
 """
 
-
 # # TODO
-# peristant json data read and write
-# test first with a sample in app dataset
-
 # List all weapons in your roster : maxxed and unmaxed
 # Get a summary of a specific weapon
 # add a weapon
@@ -17,13 +13,17 @@ This will be a cli persistant genshin character and weapon roster with stat trac
 from classes.genshin_character import GenshinCharacter, TimedCharacter
 from classes.genshin_weapon import GenshinWeapon
 from classes.genshin_roster import CharacterRoster, WeaponRoster
+from dataclasses import asdict
+from pathlib import Path
 from utils.menu_utils import MainMenu, SubMenu
 import json
 
-def json_load() -> list:
+absolute_path = Path(__file__).parent
+
+def json_load(Path) -> list:
     try:
-        with open('characters.json', 'r') as c:
-            return json.loads(c)
+        with open(Path, 'r') as c:
+            return json.load(c)
     except FileNotFoundError:
         print("!!!WARNING!!! File does not exist, starting with empty list.")
         return []
@@ -31,13 +31,23 @@ def json_load() -> list:
         print("!!!WARNING!!! Data cannot be read, starting with empty list")
         return []
 
+
+def json_save(file: object, Path) -> None:
+    serialized = [asdict(item) for item in file]
+    with open(Path, 'w') as f:
+        json.dump(serialized, f, indent=2)
+                
+
 def placeholder_function() -> None:
     print("success")
 
 
 def character_roster_main() -> None:
-    char_roster = json_load()
-    character_roster = CharacterRoster(char_roster)
+    character_path: Path = absolute_path / 'characters.json'
+    char_roster = json_load(character_path)
+    character_roster = CharacterRoster()
+    for char in char_roster:
+        character_roster.add(GenshinCharacter(**char))
 
     def find_handle() -> None:
         user_input = input("Name of the character you would like to see? : ").strip()
@@ -51,12 +61,14 @@ def character_roster_main() -> None:
             talent_lvl_skill= int(input("Skill level : "))
             talent_lvl_burst= int(input("Burst level : "))
             constellation= int(input("Number of constellations : "))
+            print()
         except ValueError:
             print("Invalid arguements")
             return
 
         c = GenshinCharacter(name, level, talent_lvl_basic, talent_lvl_skill, talent_lvl_burst, constellation)
         character_roster.add(c)
+        json_save(character_roster.items_in_roster, character_path)
 
     def upgrade_handle() -> None:
         user_input = input("Name of the character you would like to upgrade? : ").strip()
@@ -88,7 +100,58 @@ def character_roster_main() -> None:
 
 
 def weapon_roster_main() -> None:
-    pass
+    weapon_path: Path = absolute_path / 'weapons.json'
+    weap_roster = json_load(weapon_path)
+    weapon_roster = WeaponRoster()
+    for weap in weap_roster:
+        weapon_roster.add(GenshinWeapon(**weap))
+
+    def find_handle() -> None:
+        user_input = input("Name of the weapon you would like to see? : ").strip()
+        print(weapon_roster.find(user_input))
+
+    def add_weapon_handle() -> None:
+        try:
+            name = input("Name of weapon : ")
+            level = int(input("Level : "))
+            refine = int(input("Number of Refinements : "))
+            print()
+        except ValueError:
+            print("Invalid arguements")
+            return
+
+        w = GenshinWeapon(name, level, refine)
+        weapon_roster.add(w)
+        json_save(weapon_roster.items_in_roster, weapon_path)
+
+    # # # # # NOT IMPLIMENTED IN genshin_weapon
+    # def upgrade_handle() -> None:
+    #     user_input = input("Name of the weapon you would like to upgrade? : ").strip()
+    #     weap: GenshinWeapon = weapon_roster.find(user_input)
+    #     if weap is None:
+    #         print("Weapon does not exist")
+    #         return
+    #     print(weap.FIELD_RANGES)
+    #     field = input("What field do you want to update? : ").strip()
+    #     value = int(input("What level do you want to assign? (Must be a number) : "))
+    #     weap.update_levels(field, value)
+    #     print()
+        
+    def delete_handle() -> None:
+        user_input = input("Name of the weapon you would like to delete? : ").strip()
+        if weapon_roster.remove(user_input):
+            print("Weapon deleted successfully\n")
+        else:
+            print("Weapon not deleted(Possibly mispelled?)\n")
+
+    weapon_main_menu = SubMenu.from_entries(
+        ("List all weapons you own", weapon_roster.list_all),
+        ("Search for weapon", find_handle),
+        ("Add a weapon", add_weapon_handle),
+        # ("Upgrade a weapon", upgrade_handle),
+        ("Delete a weapon", delete_handle),
+        )
+    weapon_main_menu.run()
 
 
 
@@ -103,8 +166,8 @@ def char_rost_open() -> None:
 
 def weap_rost_open() -> None:
     weap_menu_select = SubMenu.from_entries(
-        ("View weapon roster", placeholder_function),
-        ("Delete weapon roster", placeholder_function),
+        ("View weapon roster", weapon_roster_main),
+        # ("Delete weapon roster", placeholder_function),
         term_on_transfer=True,
     )
     weap_menu_select.run()
@@ -114,7 +177,7 @@ if __name__ == "__main__":
     
     menu = MainMenu.from_entries(
         ("Goto your character roster", char_rost_open),
-        # ("Goto your weapon roster", weap_rost_open),
+        ("Goto your weapon roster", weap_rost_open),
     )
     menu.run()
     

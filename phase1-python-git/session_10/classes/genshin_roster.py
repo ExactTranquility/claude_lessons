@@ -49,7 +49,7 @@ class Roster(object):
         if not wip:
             print(self.LACK_OF_ENTRY_MSG + "\n")
         else:
-            print("{}".format("\n".join(wip)))
+            print("{}\n".format("\n".join(wip)))
 
     def return_maxed(self) -> str:
         if not self.items_in_roster:
