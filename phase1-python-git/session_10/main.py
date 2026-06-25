@@ -80,12 +80,14 @@ def character_roster_main() -> None:
         field = input("What field do you want to update? : ").strip()
         value = int(input("What level do you want to assign? (Must be a number) : "))
         char.update_levels(field, value)
+        json_save(character_roster.items_in_roster, character_path)
         print()
         
     def delete_handle() -> None:
         user_input = input("Name of the character you would like to delete? : ").strip()
         if character_roster.remove(user_input):
             print("Character deleted successfully\n")
+            json_save(character_roster.items_in_roster, character_path)
         else:
             print("Character not deleted(Possibly mispelled?)\n")
 
@@ -135,12 +137,14 @@ def weapon_roster_main() -> None:
     #     field = input("What field do you want to update? : ").strip()
     #     value = int(input("What level do you want to assign? (Must be a number) : "))
     #     weap.update_levels(field, value)
+        # json_save(weapon_roster.items_in_roster, weapon_path)
     #     print()
         
     def delete_handle() -> None:
         user_input = input("Name of the weapon you would like to delete? : ").strip()
         if weapon_roster.remove(user_input):
             print("Weapon deleted successfully\n")
+            json_save(weapon_roster.items_in_roster, weapon_path)
         else:
             print("Weapon not deleted(Possibly mispelled?)\n")
 
