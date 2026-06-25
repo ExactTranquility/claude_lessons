@@ -20,9 +20,9 @@ import json
 
 absolute_path = Path(__file__).parent
 
-def json_load(Path) -> list:
+def json_load(path: Path) -> list:
     try:
-        with open(Path, 'r') as c:
+        with open(path, 'r') as c:
             return json.load(c)
     except FileNotFoundError:
         print("!!!WARNING!!! File does not exist, starting with empty list.")
@@ -32,9 +32,9 @@ def json_load(Path) -> list:
         return []
 
 
-def json_save(file: object, Path) -> None:
+def json_save(file: object, path: Path) -> None:
     serialized = [asdict(item) for item in file]
-    with open(Path, 'w') as f:
+    with open(path, 'w') as f:
         json.dump(serialized, f, indent=2)
                 
 
