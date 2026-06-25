@@ -39,10 +39,17 @@ class Roster(object):
         wip: list[str] = [getattr(item, 'name') for item in self.items_in_roster if not item.is_maxed()]
         maxed: list[str] = [getattr(item, 'name') for item in self.items_in_roster if item.is_maxed()]
 
+        
         print(f"\nMaxed out {self.ENTRY_TYPE} : \n----------------------")
-        print("{}".format("\n".join(maxed)))
+        if not maxed:
+            print(self.LACK_OF_ENTRY_MSG + "\n")
+        else:
+            print("{}".format("\n".join(maxed)))
         print(f"\nWork in progress {self.ENTRY_TYPE} : \n----------------------")
-        print("{}".format("\n".join(wip)))
+        if not wip:
+            print(self.LACK_OF_ENTRY_MSG + "\n")
+        else:
+            print("{}".format("\n".join(wip)))
 
     def return_maxed(self) -> str:
         if not self.items_in_roster:
