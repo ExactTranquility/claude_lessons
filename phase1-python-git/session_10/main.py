@@ -77,8 +77,12 @@ def character_roster_main() -> None:
             print("Character does not exist")
             return
         print(char.FIELD_RANGES)
-        field = input("What field do you want to update? : ").strip()
-        value = int(input("What level do you want to assign? (Must be a number) : "))
+        field = input("What field do you want to add to? : ").strip()
+        try:
+            value = int(input("How much do you want to add? (Must be a number) : "))
+        except ValueError:
+            print("That was not a number, returning to menu")
+            return
         char.update_levels(field, value)
         json_save(character_roster.items_in_roster, character_path)
         print()
@@ -126,19 +130,22 @@ def weapon_roster_main() -> None:
         weapon_roster.add(w)
         json_save(weapon_roster.items_in_roster, weapon_path)
 
-    # # # # # NOT IMPLIMENTED IN genshin_weapon
-    # def upgrade_handle() -> None:
-    #     user_input = input("Name of the weapon you would like to upgrade? : ").strip()
-    #     weap: GenshinWeapon = weapon_roster.find(user_input)
-    #     if weap is None:
-    #         print("Weapon does not exist")
-    #         return
-    #     print(weap.FIELD_RANGES)
-    #     field = input("What field do you want to update? : ").strip()
-    #     value = int(input("What level do you want to assign? (Must be a number) : "))
-    #     weap.update_levels(field, value)
-        # json_save(weapon_roster.items_in_roster, weapon_path)
-    #     print()
+    def upgrade_handle() -> None:
+        user_input = input("Name of the weapon you would like to upgrade? : ").strip()
+        weap: GenshinWeapon = weapon_roster.find(user_input)
+        if weap is None:
+            print("Weapon does not exist")
+            return
+        print(weap.FIELD_RANGES)
+        field = input("What field do you want add to? : ").strip()
+        try:
+            value = int(input("How much do you want to add? (Must be a number) : "))
+        except ValueError:
+            print("That was not a number, returning to menu")
+            return
+        weap.update_levels(field, value)
+        json_save(weapon_roster.items_in_roster, weapon_path)
+        print()
         
     def delete_handle() -> None:
         user_input = input("Name of the weapon you would like to delete? : ").strip()
@@ -152,7 +159,7 @@ def weapon_roster_main() -> None:
         ("List all weapons you own", weapon_roster.list_all),
         ("Search for weapon", find_handle),
         ("Add a weapon", add_weapon_handle),
-        # ("Upgrade a weapon", upgrade_handle),
+        ("Upgrade a weapon", upgrade_handle),
         ("Delete a weapon", delete_handle),
         )
     weapon_main_menu.run()

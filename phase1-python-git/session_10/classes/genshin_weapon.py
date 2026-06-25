@@ -29,9 +29,15 @@ class GenshinWeapon:
             return NotImplemented
         return self.level == other.level
     
-    def update_levels(self, name: str, value: int) -> None:
-        attr = getattr(self, name)
-        setattr(self, attr, max(value, min(1, ))) 
+    def _clamp(self, value: int, min_value: int, max_value: int) -> int:
+        return max(min_value, min(value, max_value))
+
+    def update_levels(self, field_name: str, value: int) -> None:
+        if field_name not in self.FIELD_RANGES:
+            raise ValueError(f"Unknown field: {field_name}")
+        current = getattr(self, field_name)
+        setattr(self, field_name, self._clamp(value + current, current, self.FIELD_RANGES[field_name][1]))
+
 
     def is_maxed(self) -> bool:
         return all(
