@@ -31,3 +31,39 @@
 - adds file persistence of the user's list using json
 - now calls view_list and save_file anywhere data mutates for easier use by users
 - now items are added by names, and deleted by index to reduce typos
+
+
+
+
+# db_init.py
+
+Initializes a SQLite database for the Genshin character tracker.
+
+## How to run
+
+```bash
+python db_init.py
+```
+
+Safe to run multiple times — uses `CREATE TABLE IF NOT EXISTS`.
+
+## Schema
+
+**users** — Login credentials per user
+- `user_id` — Primary key, auto-incremented
+- `username` — Unique, not null
+- `password` — Not null (hashed by auth layer)
+- `created` — Timestamp, defaults to current date
+
+**characters** — Character roster per user
+- `char_id` — Primary key, auto-incremented
+- `user_id` — Foreign key to users
+- `name` — Character name
+- `level`, `weapon_level` — Default to 1
+
+**weapons** — Weapons per user (tracked separately since weapons swap between characters in-game)
+- `weap_id` — Primary key, auto-incremented
+- `user_id` — Foreign key to users
+- `level`, `refinement` — Default to 1
+
+Characters and weapons are both user-scoped but independent — a user can own multiple characters and multiple weapons, and assign them freely.- inits the tables if they dont exist and print if no error success
