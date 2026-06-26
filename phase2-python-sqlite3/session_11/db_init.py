@@ -36,6 +36,7 @@ def init_characters_db() -> None:
                 refinment INTEGER NOT NULL DEFAULT 1,
                 FOREIGN KEY (user_id) REFERENCES users (user_id))
             """)
+    print("Database initialized")
     
 if __name__ == "__main__":
     for _ in range(0, 3):
