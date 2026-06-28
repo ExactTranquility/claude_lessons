@@ -101,9 +101,19 @@ def get_all_users(path: Path) -> list[dict] | None:
         return None
 
 
-def insert_character(path: Path, user_id: str, ) -> None:
-    pass
-
+def insert_character(path: Path, 
+                     user_id: int,
+                     name: str,
+                     level: int = 1, 
+                     auto_level: int = 1, 
+                     skill_level: int = 1, 
+                     burst_level: int = 1,
+                     constellations: int = 1) -> None:
+    connect_execute_db_close(path, ("""
+        INSERT INTO characters (user_id, name, level, auto_level, skill_level, burst_level, constellations)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+        """, (user_id, name, level, auto_level, skill_level, burst_level, constellations))
+    )
 
 def get_characters_for_user() -> None:
     pass
@@ -123,6 +133,8 @@ def test() -> None:
     if users is not None:
         for user in users:
             print(f"{user['user_id']}.) {user['username']}")
+
+    insert_character(master_database, bob['user_id'], 'Hu tao', 90, constellations=6)
 
 def main() -> None:
     init(master_database)
