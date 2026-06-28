@@ -96,9 +96,20 @@ def get_characters_for_user() -> None:
     pass
 
 
+def test() -> None:
+    insert_user(master_database, 'bob', 'pass')
+    insert_user(master_database, 'bOb', 'pass')
+    bo = get_user_by_username(master_database, 'bo')
+    bob = get_user_by_username(master_database, 'bob')
+    try:
+        get_user_by_id(master_database, bob['user_id'])
+        get_user_by_id(master_database, bo['user_id'])
+    except TypeError:
+        pass
 
 def main() -> None:
     init(master_database)
+    test()
 
 
 if __name__ == "__main__":
