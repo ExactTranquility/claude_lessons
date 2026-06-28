@@ -20,10 +20,6 @@ def connect_db(path: Path) -> sqlite3.Connection:
     conn.row_factory = sqlite3.Row
     return conn
 
-def close_db_commit(conn: sqlite3.Connection) -> None:
-    conn.commit()
-    conn.close()
-
 
 def init(path: Path) -> None:
     connect_execute_db_close(path, """
@@ -179,6 +175,7 @@ def update_user_password(conn: sqlite3.Connection, user_id: int, user_input) -> 
         WHERE user_id = ?
         """, (user_input, user_id)
     )
+    conn.commit()
     result = cursor.rowcount
     return result > 0
 
@@ -202,7 +199,8 @@ def test() -> None:
         for user in users:
             print(f"{user['user_id']}.) {user['username']}")
     
-    with connect_db(master_database) as conn:
+    conn = connect_db(master_database)
+    try:
         if bob is not None:
             update_character(conn, bob['user_id'], "Hu tao", 'level', 85)
             print(get_characters_for_user(master_database, bob['user_id']))
@@ -218,6 +216,8 @@ def test() -> None:
                     print("Error, password not changed")
             else:
                 print("Passwords do not match")
+    finally:
+        conn.close() 
 
 def main() -> None:
     init(master_database)
