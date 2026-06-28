@@ -48,8 +48,16 @@ def init(path: Path) -> None:
 
 
 
-def insert_user() -> None:
-    pass
+
+def insert_user(path: Path, username: str, password: str) -> None:
+    try:
+        connect_execute_db_close(path, ("""
+            INSERT INTO users (username, password) VALUES (?, ?)
+            """, (username, password))
+        )
+        print(f"Successfully registered {username}")
+    except sqlite3.IntegrityError:
+        print(f"Sorry, the username {username} is already taken, please try again.")
 
 
 def get_user_by_username() -> None:
@@ -74,7 +82,7 @@ def get_characters_for_user() -> None:
 
 
 def main() -> None:
-    init(master_database) 
+    init(master_database)
 
 
 if __name__ == "__main__":
