@@ -61,7 +61,7 @@ def insert_user(path: Path, username: str, password: str) -> None:
         print(f"Sorry, the username {username} is already taken, please try again.")
 
 
-def remove_password(user: dict) -> dict:
+def remove_password(user: dict[str, Any]) -> dict[str, Any]:
     user.pop('password', None)
     return user
 
