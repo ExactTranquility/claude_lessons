@@ -71,10 +71,7 @@ def get_user_by_username(path: Path, username: str) -> dict | None:
         SELECT * FROM users WHERE username = ?                           
         """, (username,))
     )
-    if user:
-        return remove_password(user[0])
-    else:
-        return None
+    return remove_password(user[0]) if user else None
 
 
 def get_user_by_id(path: Path, user_id: str) -> dict | None:
