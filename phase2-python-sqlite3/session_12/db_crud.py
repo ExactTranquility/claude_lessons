@@ -108,15 +108,26 @@ def insert_character(path: Path,
                      auto_level: int = 1, 
                      skill_level: int = 1, 
                      burst_level: int = 1,
-                     constellations: int = 1) -> None:
-    connect_execute_db_close(path, ("""
-        INSERT INTO characters (user_id, name, level, auto_level, skill_level, burst_level, constellations)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-        """, (user_id, name, level, auto_level, skill_level, burst_level, constellations))
-    )
+                     constellations: int = 1) -> bool:
+    try:
+        connect_execute_db_close(path, ("""
+            INSERT INTO characters (user_id, name, level, auto_level, skill_level, burst_level, constellations)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+            """, (user_id, name, level, auto_level, skill_level, burst_level, constellations))
+        )
+        print(f"Successfully added {name}!")
+        return True
+    except sqlite3.IntegrityError:
+        print(f"{name} already exist!")
+        return False
 
-def get_characters_for_user() -> None:
-    pass
+def get_characters_for_user(path: Path, user_id: int) -> list[dict] | None:
+    characters = connect_execute_db_close(path, ("""
+        SELECT * FROM characters WHERE user_id = ?
+        """, (user_id,))
+    )
+    return characters if characters else None
+    
 
 
 def test() -> None:
@@ -133,6 +144,10 @@ def test() -> None:
     if users is not None:
         for user in users:
             print(f"{user['user_id']}.) {user['username']}")
+    characters = get_characters_for_user(master_database, bob['user_id'])
+    if characters is not None:
+        for character in characters:
+            print(f"{character['name']}")
 
     insert_character(master_database, bob['user_id'], 'Hu tao', 90, constellations=6)
 
