@@ -167,13 +167,13 @@ def delete_character_by_name(conn: sqlite3.Connection, user_id: int, name: str) 
     return result > 0
 
 
-def update_user_password(conn: sqlite3.Connection, user_id: int, user_input) -> bool:
+def update_user_password(conn: sqlite3.Connection, user_id: int, password: str) -> bool:
     cursor = conn.cursor()
     cursor.execute("""
         UPDATE users
         SET password = ?
         WHERE user_id = ?
-        """, (user_input, user_id)
+        """, (password, user_id)
     )
     conn.commit()
     result = cursor.rowcount
@@ -217,7 +217,8 @@ def test() -> None:
             else:
                 print("Passwords do not match")
     finally:
-        conn.close() 
+        conn.close()
+
 
 def main() -> None:
     init(master_database)
