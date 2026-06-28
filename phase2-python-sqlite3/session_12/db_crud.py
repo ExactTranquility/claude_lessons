@@ -27,7 +27,7 @@ def init(path: Path) -> None:
                                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                                 user_id INTEGER NOT NULL,
                                 name TEXT UNIQUE NOT NULL,
-                                level INTEGER NOT NULL DEFAULT 0,
+                                level INTEGER NOT NULL DEFAULT 1,
                                 auto_level INTEGER NOT NULL DEFAULT 1,
                                 skill_level INTEGER NOT NULL DEFAULT 1,
                                 burst_level INTEGER NOT NULL DEFAULT 1,
@@ -101,7 +101,7 @@ def get_all_users(path: Path) -> list[dict] | None:
         return None
 
 
-def insert_character(path) -> None:
+def insert_character(path: Path, user_id: str, ) -> None:
     pass
 
 
