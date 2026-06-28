@@ -141,7 +141,7 @@ def update_character(conn: sqlite3.Connection, user_id: int, name: str, field: s
     # check if the field is valid in the call and authorized
     # (could change later where permission levels exist for certain fields)
     valid_field = ['level', 'auto_level', 'skill_level', 'burst_level', 'constellations']
-    if not field in valid_field:
+    if field not in valid_field:
         raise ValueError(f"Invalid or unauthorized field entry: {field}")
     
     # create f string for the query with the field option
