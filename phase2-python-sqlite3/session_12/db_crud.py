@@ -88,11 +88,20 @@ def get_user_by_id(path: Path, user_id: str) -> dict | None:
     else:
         return None
 
-def get_all_users() -> None:
-    pass
+
+def get_all_users(path: Path) -> list[dict] | None:
+    users = connect_execute_db_close(path, ("""
+        SELECT * FROM users ORDER BY username
+        """,)
+    )
+    if users:
+        users = [remove_password(user) for user in users]
+        return users
+    else:
+        return None
 
 
-def insert_character() -> None:
+def insert_character(path) -> None:
     pass
 
 
@@ -110,6 +119,10 @@ def test() -> None:
         get_user_by_id(master_database, bo['user_id'])
     except TypeError:
         pass
+    users = get_all_users(master_database)
+    if users is not None:
+        for user in users:
+            print(f"{user['user_id']}.) {user['username']}")
 
 def main() -> None:
     init(master_database)
