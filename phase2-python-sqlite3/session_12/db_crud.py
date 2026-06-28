@@ -74,9 +74,15 @@ def get_user_by_username(path: Path, username: str) -> dict | None:
         return None
 
 
-def get_user_by_id() -> None:
-    pass 
-
+def get_user_by_id(path: Path, user_id: str) -> None:
+    user = connect_execute_db_close(path, ("""
+        SELECT * FROM users WHERE user_id = ?
+        """, (user_id,))
+    )
+    if user:
+        print(user[0])
+    else:
+        print(f"User {user_id} does not exist")
 
 def get_all_users() -> None:
     pass
