@@ -66,7 +66,7 @@ def remove_password(user: dict[str, Any]) -> dict[str, Any]:
     return user
 
 
-def get_user_by_username(path: Path, username: str) -> dict | None:
+def get_user_by_username(path: Path, username: str) -> dict[str, Any] | None:
     user = connect_execute_db_close(path, """
         SELECT * FROM users WHERE username = ?                           
         """, (username,)
@@ -74,7 +74,7 @@ def get_user_by_username(path: Path, username: str) -> dict | None:
     return remove_password(user[0]) if user else None
 
 
-def get_user_by_id(path: Path, user_id: str) -> dict | None:
+def get_user_by_id(path: Path, user_id: int) -> dict[str, Any] | None:
     user = connect_execute_db_close(path, """
         SELECT * FROM users WHERE user_id = ?
         """, (user_id,)
@@ -114,7 +114,7 @@ def insert_character(path: Path,
         print(f"{name} already exists!")
         return False
 
-def get_characters_for_user(path: Path, user_id: int) -> list[dict] | None:
+def get_characters_for_user(path: Path, user_id: int) -> list[dict[str, Any]] | None:
     characters = connect_execute_db_close(path, """
         SELECT * FROM characters WHERE user_id = ?
         """, (user_id,)
@@ -128,21 +128,20 @@ def test() -> None:
     insert_user(master_database, 'bOb', 'pass')
     bo = get_user_by_username(master_database, 'bo')
     bob = get_user_by_username(master_database, 'bob')
-    try:
+    if bob is not None:
         get_user_by_id(master_database, bob['user_id'])
+        insert_character(master_database, bob['user_id'], 'Hu tao', 90, constellations=6)
+        characters = get_characters_for_user(master_database, bob['user_id'])
+        if characters is not None:
+            for character in characters:
+                print(f"{character['name']}")
+    if bo is not None:
         get_user_by_id(master_database, bo['user_id'])
-    except TypeError:
-        pass
     users = get_all_users(master_database)
     if users is not None:
         for user in users:
             print(f"{user['user_id']}.) {user['username']}")
-    characters = get_characters_for_user(master_database, bob['user_id'])
-    if characters is not None:
-        for character in characters:
-            print(f"{character['name']}")
-
-    insert_character(master_database, bob['user_id'], 'Hu tao', 90, constellations=6)
+    
 
 def main() -> None:
     init(master_database)
