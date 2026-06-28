@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Any
 import sqlite3
 
 absolute_path = Path(__file__).parent
@@ -60,11 +61,9 @@ def insert_user(path: Path, username: str, password: str) -> None:
         print(f"Sorry, the username {username} is already taken, please try again.")
 
 
-def remove_password(user: dict) -> dict | None:
-    if user is not None:
-        user.pop('password', None)
-        return user
-    return None
+def remove_password(user: dict) -> dict:
+    user.pop('password', None)
+    return user
 
 
 def get_user_by_username(path: Path, username: str) -> dict | None:
@@ -86,7 +85,7 @@ def get_user_by_id(path: Path, user_id: str) -> dict | None:
     return remove_password(user[0]) if user else None
 
 
-def get_all_users(path: Path) -> list[dict] | None:
+def get_all_users(path: Path) -> list[dict[str, Any]] | None:
     users = connect_execute_db_close(path, ("""
         SELECT * FROM users ORDER BY username
         """,)
