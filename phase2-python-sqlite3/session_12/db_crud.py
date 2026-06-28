@@ -11,7 +11,7 @@ def connect_execute_db_close(path: Path, command_param: tuple) -> list[dict] | N
         conn.row_factory = sqlite3.Row
         cursor = conn.execute(*command_param)
         conn.commit()
-        return cursor.fetchall()
+        return [dict(row) for row in cursor.fetchall()]
 
 
 def init(path: Path) -> None:
@@ -60,8 +60,16 @@ def insert_user(path: Path, username: str, password: str) -> None:
         print(f"Sorry, the username {username} is already taken, please try again.")
 
 
-def get_user_by_username() -> None:
-    pass
+def get_user_by_username(path: Path, username: str) -> None:
+    user = connect_execute_db_close(path, ("""
+        SELECT * FROM users WHERE username = ?                           
+        """, (username,))
+    )
+    if user:
+        user[0].pop('password', None)
+        print(user)
+    else:
+        print(f"User {username} does not exist")
 
 
 def get_user_by_id() -> None:
