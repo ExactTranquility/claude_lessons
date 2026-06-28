@@ -131,6 +131,21 @@ def get_characters_for_user(path: Path, user_id: int) -> list[dict[str, Any]] | 
     )
     return characters if characters else None
 
+#----------------------------------------------#
+# session 13 additions
+#----------------------------------------------#
+
+def update_character() -> None:
+    pass
+
+
+def delete_character() -> None:
+    pass
+
+
+def update_user_password() -> None:
+    pass
+
 
 def test() -> None:
     insert_user(master_database, 'bob', 'pass')
