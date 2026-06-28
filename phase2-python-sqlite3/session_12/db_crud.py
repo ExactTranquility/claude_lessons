@@ -5,7 +5,7 @@ import sqlite3
 absolute_path = Path(__file__).parent
 master_database = absolute_path / 'characters.db'
 
-def connect_execute_db_close(path: Path, command_param: tuple) -> list[dict] | None:
+def connect_execute_db_close(path: Path, command_param: tuple) -> list[dict[str, Any]]:
     with sqlite3.connect(path) as conn:
         conn.row_factory = sqlite3.Row
         cursor = conn.execute(*command_param)
