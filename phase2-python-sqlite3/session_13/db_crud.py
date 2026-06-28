@@ -171,20 +171,14 @@ def delete_character_by_name(conn: sqlite3.Connection, user_id: int, name: str) 
     return result > 0
 
 
-def update_user_password(conn: sqlite3.Connection, user_id: int) -> bool:
+def update_user_password(conn: sqlite3.Connection, user_id: int, user_input) -> bool:
     cursor = conn.cursor()
-
-    user_input = input("New password : ").strip()
-    confirm = input("Confirm new password: ").strip()
-    if user_input == confirm:
-        cursor.execute("""
-            UPDATE users
-            SET password = ?
-            WHERE user_id = ?
-            """, (user_input, user_id)
-        )
-    else:
-        print("Passwords do not match")
+    cursor.execute("""
+        UPDATE users
+        SET password = ?
+        WHERE user_id = ?
+        """, (user_input, user_id)
+    )
     result = cursor.rowcount
     return result > 0
 
@@ -214,11 +208,16 @@ def test() -> None:
             print(get_characters_for_user(master_database, bob['user_id']))
             print(delete_character_by_name(conn, bob['user_id'], "Hu tao"))
             print(get_characters_for_user(master_database, bob['user_id']))
-            if update_user_password(conn, bob['user_id']):
-                print("Password updated succesfully")
+            
+            user_input = input("New password : ").strip()
+            confirm = input("Confirm new password: ").strip()
+            if user_input == confirm:
+                if update_user_password(conn, bob['user_id'], user_input):
+                    print("Password updated succesfully")
+                else:
+                    print("Error, password not changed")
             else:
-                print("Error, password not changed")
-    
+                print("Passwords do not match")
 
 def main() -> None:
     init(master_database)
