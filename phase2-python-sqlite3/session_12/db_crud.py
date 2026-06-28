@@ -5,10 +5,10 @@ import sqlite3
 absolute_path = Path(__file__).parent
 master_database = absolute_path / 'characters.db'
 
-def connect_execute_db_close(path: Path, command_param: tuple) -> list[dict[str, Any]]:
+def connect_execute_db_close(path: Path, command: str, params: tuple[Any, ...] = ()) -> list[dict[str, Any]]:
     with sqlite3.connect(path) as conn:
         conn.row_factory = sqlite3.Row
-        cursor = conn.execute(*command_param)
+        cursor = conn.execute(command, params)
         conn.commit()
         result = [dict(row) for row in cursor.fetchall()]
     conn.close()
@@ -16,14 +16,14 @@ def connect_execute_db_close(path: Path, command_param: tuple) -> list[dict[str,
 
 
 def init(path: Path) -> None:
-    connect_execute_db_close(path, ("""
+    connect_execute_db_close(path, """
                             CREATE TABLE IF NOT EXISTS users(
                                 user_id INTEGER PRIMARY KEY AUTOINCREMENT,
                                 username TEXT NOT NULL UNIQUE COLLATE NOCASE,
                                 password TEXT NOT NULL
-                            )""",)
+                            )"""
     )
-    connect_execute_db_close(path, ("""
+    connect_execute_db_close(path, """
                             CREATE TABLE IF NOT EXISTS characters(
                                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                                 user_id INTEGER NOT NULL,
@@ -34,16 +34,16 @@ def init(path: Path) -> None:
                                 burst_level INTEGER NOT NULL DEFAULT 1,
                                 constellations INTEGER NOT NULL DEFAULT 1,
                                 FOREIGN KEY (user_id) REFERENCES users (user_id)
-                            )""",)
+                            )"""
     )
-    connect_execute_db_close(path,("""
+    connect_execute_db_close(path,"""
                             CREATE TABLE IF NOT EXISTS weapons(
                                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                                 user_id INTEGER NOT NULL,
                                 level INTEGER NOT NULL DEFAULT 1,
                                 refinement INTEGER NOT NULL DEFAULT 1,
                                 FOREIGN KEY (user_id) REFERENCES users (user_id)
-                            )""",)
+                            )"""
     
     )
 
@@ -52,9 +52,9 @@ def init(path: Path) -> None:
 
 def insert_user(path: Path, username: str, password: str) -> None:
     try:
-        connect_execute_db_close(path, ("""
+        connect_execute_db_close(path, """
             INSERT INTO users (username, password) VALUES (?, ?)
-            """, (username, password))
+            """, (username, password)
         )
         print(f"Successfully registered {username}")
     except sqlite3.IntegrityError:
@@ -67,25 +67,25 @@ def remove_password(user: dict[str, Any]) -> dict[str, Any]:
 
 
 def get_user_by_username(path: Path, username: str) -> dict | None:
-    user = connect_execute_db_close(path, ("""
+    user = connect_execute_db_close(path, """
         SELECT * FROM users WHERE username = ?                           
-        """, (username,))
+        """, (username,)
     )
     return remove_password(user[0]) if user else None
 
 
 def get_user_by_id(path: Path, user_id: str) -> dict | None:
-    user = connect_execute_db_close(path, ("""
+    user = connect_execute_db_close(path, """
         SELECT * FROM users WHERE user_id = ?
-        """, (user_id,))
+        """, (user_id,)
     )
     return remove_password(user[0]) if user else None
 
 
 def get_all_users(path: Path) -> list[dict[str, Any]] | None:
-    users = connect_execute_db_close(path, ("""
+    users = connect_execute_db_close(path, """
         SELECT * FROM users ORDER BY username
-        """,)
+        """
     )
     if users:
         users = [remove_password(user) for user in users]
@@ -103,21 +103,21 @@ def insert_character(path: Path,
                      burst_level: int = 1,
                      constellations: int = 1) -> bool:
     try:
-        connect_execute_db_close(path, ("""
+        connect_execute_db_close(path, """
             INSERT INTO characters (user_id, name, level, auto_level, skill_level, burst_level, constellations)
             VALUES (?, ?, ?, ?, ?, ?, ?)
-            """, (user_id, name, level, auto_level, skill_level, burst_level, constellations))
+            """, (user_id, name, level, auto_level, skill_level, burst_level, constellations)
         )
         print(f"Successfully added {name}!")
         return True
     except sqlite3.IntegrityError:
-        print(f"{name} already exist!")
+        print(f"{name} already exists!")
         return False
 
 def get_characters_for_user(path: Path, user_id: int) -> list[dict] | None:
-    characters = connect_execute_db_close(path, ("""
+    characters = connect_execute_db_close(path, """
         SELECT * FROM characters WHERE user_id = ?
-        """, (user_id,))
+        """, (user_id,)
     )
     return characters if characters else None
     
