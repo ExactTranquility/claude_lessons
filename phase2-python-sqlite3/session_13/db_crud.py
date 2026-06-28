@@ -157,8 +157,18 @@ def update_character(conn: sqlite3.Connection, user_id: int, name: str, field: s
     return cursor.rowcount > 0
 
 
-def delete_character() -> None:
-    pass
+def delete_character_by_name(conn: sqlite3.Connection, user_id: int, name: str) -> bool:
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        DELETE FROM characters
+        WHERE user_id = ?
+        AND name = ?
+        """, (user_id, name)
+    )
+    conn.commit()
+    result = cursor.rowcount
+    return result > 0
 
 
 def update_user_password() -> None:
@@ -187,6 +197,8 @@ def test() -> None:
     with connect_db(master_database) as conn:
         if bob is not None:
             update_character(conn, bob['user_id'], "Hu tao", 'level', 85)
+            print(get_characters_for_user(master_database, bob['user_id']))
+            print(delete_character_by_name(conn, bob['user_id'], "Hu tao"))
             print(get_characters_for_user(master_database, bob['user_id']))
     
 
