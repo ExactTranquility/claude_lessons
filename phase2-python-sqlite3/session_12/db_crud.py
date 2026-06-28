@@ -60,7 +60,7 @@ def insert_user(path: Path, username: str, password: str) -> None:
         print(f"Sorry, the username {username} is already taken, please try again.")
 
 
-def get_user_by_username(path: Path, username: str) -> None:
+def get_user_by_username(path: Path, username: str) -> dict | None:
     user = connect_execute_db_close(path, ("""
         SELECT * FROM users WHERE username = ?                           
         """, (username,))
@@ -68,8 +68,10 @@ def get_user_by_username(path: Path, username: str) -> None:
     if user:
         user[0].pop('password', None)
         print(user)
+        return user[0]
     else:
         print(f"User {username} does not exist")
+        return None
 
 
 def get_user_by_id() -> None:
