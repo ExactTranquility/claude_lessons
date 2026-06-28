@@ -18,7 +18,7 @@ def init(path: Path) -> None:
     connect_execute_db_close(path, ("""
                             CREATE TABLE IF NOT EXISTS users(
                                 user_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                                username TEXT UNIQUE NOT NULL,
+                                username TEXT NOT NULL UNIQUE COLLATE NOCASE,
                                 password TEXT NOT NULL
                             )""",)
     )
