@@ -9,7 +9,9 @@ def connect_execute_db_close(path: Path, command_param: tuple) -> list[dict] | N
         conn.row_factory = sqlite3.Row
         cursor = conn.execute(*command_param)
         conn.commit()
-        return [dict(row) for row in cursor.fetchall()]
+        result = [dict(row) for row in cursor.fetchall()]
+    conn.close()
+    return result
 
 
 def init(path: Path) -> None:
