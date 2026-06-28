@@ -60,29 +60,33 @@ def insert_user(path: Path, username: str, password: str) -> None:
         print(f"Sorry, the username {username} is already taken, please try again.")
 
 
+def remove_password(user: dict) -> dict | None:
+    if user is not None:
+        user.pop('password', None)
+        return user
+    return None
+
+
 def get_user_by_username(path: Path, username: str) -> dict | None:
     user = connect_execute_db_close(path, ("""
         SELECT * FROM users WHERE username = ?                           
         """, (username,))
     )
     if user:
-        user[0].pop('password', None)
-        print(user)
-        return user[0]
+        return remove_password(user[0])
     else:
-        print(f"User {username} does not exist")
         return None
 
 
-def get_user_by_id(path: Path, user_id: str) -> None:
+def get_user_by_id(path: Path, user_id: str) -> dict | None:
     user = connect_execute_db_close(path, ("""
         SELECT * FROM users WHERE user_id = ?
         """, (user_id,))
     )
     if user:
-        print(user[0])
+        return remove_password(user[0])
     else:
-        print(f"User {user_id} does not exist")
+        return None
 
 def get_all_users() -> None:
     pass
