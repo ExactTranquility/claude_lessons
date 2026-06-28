@@ -135,8 +135,26 @@ def get_characters_for_user(path: Path, user_id: int) -> list[dict[str, Any]] | 
 # session 13 additions
 #----------------------------------------------#
 
-def update_character() -> None:
-    pass
+def update_character(conn: sqlite3.Connection, user_id: int, name: str, field: str, data: int | str) -> bool:
+    cursor = conn.cursor()
+
+    # check if the field is valid in the call and authorized
+    # (could change later where permission levels exist for certain fields)
+    valid_field = ['level', 'auto_level', 'skill_level', 'burst_level', 'constellations']
+    if not field in valid_field:
+        raise ValueError(f"Invalid or unauthorized field entry: {field}")
+    
+    # create f string for the query with the field option
+    query = f"""
+        UPDATE characters
+        SET {field} = ?
+        WHERE name = ?
+        AND user_id = ?
+        """
+    
+    cursor.execute(query, (data, name, user_id))
+    conn.commit()
+    return cursor.rowcount > 0
 
 
 def delete_character() -> None:
@@ -165,6 +183,11 @@ def test() -> None:
     if users is not None:
         for user in users:
             print(f"{user['user_id']}.) {user['username']}")
+    
+    with connect_db(master_database) as conn:
+        if bob is not None:
+            update_character(conn, bob['user_id'], "Hu tao", 'level', 85)
+            print(get_characters_for_user(master_database, bob['user_id']))
     
 
 def main() -> None:
