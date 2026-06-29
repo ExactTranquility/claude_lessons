@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Any
 import sqlite3
 
 absolute_path = Path(__file__).parent
@@ -66,9 +67,15 @@ def insert_todo(conn: sqlite3.Connection, user_id: int, todo_title: str, todo_bo
     return cursor.rowcount > 0
 
 
-def get_todos_for_user() -> None:
-    pass
-
+def get_todos_for_user(conn: sqlite3.Connection, user_id: int) -> list[dict[str, Any]]:
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT * FROM todos
+        WHERE user_id = ?
+        """, (user_id,))
+    
+    results = [dict(row) for row in cursor.fetchall()]
+    return results
 
 def get_todo_by_id() -> None:
     pass
@@ -100,6 +107,7 @@ def test() -> None:
             print("Successfully added the note")
         else:
             print("Failed to add note")
+        print(get_todos_for_user(conn, david_id))
     finally:
         conn.close()
 
