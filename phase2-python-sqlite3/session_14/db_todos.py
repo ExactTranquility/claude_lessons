@@ -32,18 +32,17 @@ def __init__(path: Path) -> None:
         conn.close()
 
 
-def insert_user(conn: sqlite3.Connection, username, password) -> bool:
+def insert_user(conn: sqlite3.Connection, username, password) -> int:
     cursor = conn.cursor()
-    try:
-        cursor.execute("""
-            INSERT INTO users
-            (username, password)
-            VALUES (?, ?)
-            """, (username, password))
-        conn.commit()
-        return cursor.rowcount > 0
-    except sqlite3.IntegrityError:
-        return False
+    cursor.execute("""
+        INSERT INTO users
+        (username, password)
+        VALUES (?, ?)
+        """, (username, password))
+    conn.commit()
+    assert cursor.lastrowid is not None
+    return cursor.lastrowid
+
     
 
 def get_user_id_by_username(conn: sqlite3.Connection, username) -> int:
@@ -108,13 +107,15 @@ def count_todos() -> None:
 def test() -> None:
     conn = connect_db(master_database)
     try:
-        insert_user(conn, 'David', 'Password')
+        try:
+            insert_user(conn, 'David', 'Password')
+        except sqlite3.IntegrityError:
+            print("Username already exist")
         david_id = get_user_id_by_username(conn, 'david')
         print(david_id)
         david_todo = insert_todo(conn, david_id, 'Test')
         # print(get_todos_for_user(conn, david_id))
         print(get_todo_by_id(conn, david_todo, david_id))
-
     finally:
         conn.close()
 
