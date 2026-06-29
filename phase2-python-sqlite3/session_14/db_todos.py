@@ -31,8 +31,39 @@ def __init__(path: Path) -> None:
         conn.close()
 
 
-def insert_todo() -> None:
-    pass
+def insert_user(conn: sqlite3.Connection, username, password) -> bool:
+    cursor = conn.cursor()
+    try:
+        cursor.execute("""
+            INSERT INTO users
+            (username, password)
+            VALUES (?, ?)
+            """, (username, password))
+        conn.commit()
+        return cursor.rowcount > 0
+    except sqlite3.IntegrityError:
+        return False
+    
+
+def get_user_id_by_username(conn: sqlite3.Connection, username) -> int:
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT user_id FROM users
+        WHERE username = ?
+        """, (username,))
+    return cursor.fetchone()[0]
+
+
+
+def insert_todo(conn: sqlite3.Connection, user_id: int, todo_title: str, todo_body:str='') -> bool:
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO todos
+        (user_id, title, body)
+        VALUES (?, ?, ?)
+        """, (user_id, todo_title, todo_body))
+    conn.commit()
+    return cursor.rowcount > 0
 
 
 def get_todos_for_user() -> None:
@@ -59,8 +90,23 @@ def count_todos() -> None:
     pass
 
 
+def test() -> None:
+    conn = connect_db(master_database)
+    try:
+        insert_user(conn, 'David', 'Password')
+        david_id = get_user_id_by_username(conn, 'david')
+        print(david_id)
+        if insert_todo(conn, david_id, 'Test'):
+            print("Successfully added the note")
+        else:
+            print("Failed to add note")
+    finally:
+        conn.close()
+
+
 def main() -> None:
     __init__(master_database)
+    test()
 
 
 if __name__ == "__main__":
