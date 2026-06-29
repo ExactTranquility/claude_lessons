@@ -88,8 +88,15 @@ def get_todo_by_id(conn: sqlite3.Connection, todo_id, user_id) -> dict[str, Any]
     return dict(cursor.fetchone())
 
 
-def update_todo_title() -> None:
-    pass
+def update_todo_title(conn: sqlite3.Connection, todo_id: int, user_id: int, new_title: str) -> bool:
+    cursor = conn.cursor()
+    cursor.execute("""
+        UPDATE todos
+        SET title = ?
+        WHERE todo_id = ?
+        AND user_id = ?
+        """, (new_title, todo_id, user_id))
+    return cursor.rowcount > 0
 
 
 def toggle_todo_active() -> None:
@@ -115,6 +122,8 @@ def test() -> None:
         print(david_id)
         david_todo = insert_todo(conn, david_id, 'Test')
         # print(get_todos_for_user(conn, david_id))
+        print(get_todo_by_id(conn, david_todo, david_id))
+        update_todo_title(conn, david_todo, david_id, 'Final')
         print(get_todo_by_id(conn, david_todo, david_id))
     finally:
         conn.close()
