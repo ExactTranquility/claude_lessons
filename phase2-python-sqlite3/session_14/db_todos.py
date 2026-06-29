@@ -99,8 +99,16 @@ def update_todo_title(conn: sqlite3.Connection, todo_id: int, user_id: int, new_
     return cursor.rowcount > 0
 
 
-def toggle_todo_active() -> None:
-    pass
+def toggle_todo_active(conn: sqlite3.Connection, todo_id: int, user_id: int) -> bool:
+    cursor = conn.cursor()
+    cursor.execute("""
+        UPDATE todos
+        SET archived = CASE WHEN ARCHIVED = 1 THEN 0 ELSE 1 END
+        WHERE todo_id = ?
+        AND user_id = ?
+        """, (todo_id, user_id))
+    conn.commit()
+    return cursor.rowcount > 0
 
 
 def delete_todo() -> None:
@@ -125,6 +133,11 @@ def test() -> None:
         print(get_todo_by_id(conn, david_todo, david_id))
         update_todo_title(conn, david_todo, david_id, 'Final')
         print(get_todo_by_id(conn, david_todo, david_id))
+        toggle_todo_active(conn, david_todo, david_id)
+        print(get_todo_by_id(conn, david_todo, david_id))
+        toggle_todo_active(conn, david_todo, david_id)
+        print(get_todo_by_id(conn, david_todo, david_id))
+
     finally:
         conn.close()
 
