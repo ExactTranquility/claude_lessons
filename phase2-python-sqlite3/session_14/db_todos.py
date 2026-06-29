@@ -56,7 +56,7 @@ def get_user_id_by_username(conn: sqlite3.Connection, username) -> int:
 
 
 
-def insert_todo(conn: sqlite3.Connection, user_id: int, todo_title: str, todo_body:str='') -> bool:
+def insert_todo(conn: sqlite3.Connection, user_id: int, todo_title: str, todo_body:str='') -> int:
     cursor = conn.cursor()
     cursor.execute("""
         INSERT INTO todos
@@ -64,7 +64,8 @@ def insert_todo(conn: sqlite3.Connection, user_id: int, todo_title: str, todo_bo
         VALUES (?, ?, ?)
         """, (user_id, todo_title, todo_body))
     conn.commit()
-    return cursor.rowcount > 0
+    assert cursor.lastrowid is not None
+    return cursor.lastrowid
 
 
 def get_todos_for_user(conn: sqlite3.Connection, user_id: int) -> list[dict[str, Any]]:
@@ -77,8 +78,15 @@ def get_todos_for_user(conn: sqlite3.Connection, user_id: int) -> list[dict[str,
     results = [dict(row) for row in cursor.fetchall()]
     return results
 
-def get_todo_by_id() -> None:
-    pass
+def get_todo_by_id(conn: sqlite3.Connection, todo_id, user_id) -> dict[str, Any]:
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT * FROM todos
+        WHERE todo_id = ?
+        AND user_id = ?           
+        """, (todo_id, user_id))
+    
+    return dict(cursor.fetchone())
 
 
 def update_todo_title() -> None:
@@ -103,11 +111,10 @@ def test() -> None:
         insert_user(conn, 'David', 'Password')
         david_id = get_user_id_by_username(conn, 'david')
         print(david_id)
-        if insert_todo(conn, david_id, 'Test'):
-            print("Successfully added the note")
-        else:
-            print("Failed to add note")
-        print(get_todos_for_user(conn, david_id))
+        david_todo = insert_todo(conn, david_id, 'Test')
+        # print(get_todos_for_user(conn, david_id))
+        print(get_todo_by_id(conn, david_todo, david_id))
+
     finally:
         conn.close()
 
