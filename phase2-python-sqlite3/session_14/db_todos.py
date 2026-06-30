@@ -12,7 +12,7 @@ def connect_db(path: Path) -> sqlite3.Connection:
     conn.execute("PRAGMA foreign_keys = ON")
     return conn
 
-def __init__(path: Path) -> None:
+def init_database(path: Path) -> None:
     conn = connect_db(path)
     try:
         conn.execute("""CREATE TABLE IF NOT EXISTS users(
@@ -32,7 +32,7 @@ def __init__(path: Path) -> None:
         conn.close()
 
 
-def insert_user(conn: sqlite3.Connection, username, password) -> int:
+def insert_user(conn: sqlite3.Connection, username: str, password: str) -> int:
     cursor = conn.cursor()
     cursor.execute("""
         INSERT INTO users
@@ -45,13 +45,16 @@ def insert_user(conn: sqlite3.Connection, username, password) -> int:
 
     
 
-def get_user_id_by_username(conn: sqlite3.Connection, username) -> int:
+def get_user_id_by_username(conn: sqlite3.Connection, username: str) -> int | None:
     cursor = conn.cursor()
     cursor.execute("""
         SELECT user_id FROM users
         WHERE username = ?
         """, (username,))
-    return cursor.fetchone()[0]
+    result = cursor.fetchone()
+    if result is not None:
+        return result[0]
+    return None
 
 
 
@@ -107,7 +110,7 @@ def toggle_todo_active(conn: sqlite3.Connection, todo_id: int, user_id: int) -> 
     cursor = conn.cursor()
     cursor.execute("""
         UPDATE todos
-        SET archived = CASE WHEN ARCHIVED = 1 THEN 0 ELSE 1 END
+        SET archived = CASE WHEN archived = 1 THEN 0 ELSE 1 END
         WHERE todo_id = ?
         AND user_id = ?
         """, (todo_id, user_id))
@@ -126,7 +129,7 @@ def delete_todo(conn: sqlite3.Connection, todo_id: int, user_id: int) -> bool:
     return cursor.rowcount > 0
 
 
-def count_todos(conn: sqlite3.Connection) -> None:
+def count_todos(conn: sqlite3.Connection) -> int:
     count = conn.execute("""
         SELECT COUNT(*) FROM todos
         """)
@@ -161,7 +164,7 @@ def test() -> None:
 
 
 def main() -> None:
-    __init__(master_database)
+    init_database(master_database)
     test()
 
 
