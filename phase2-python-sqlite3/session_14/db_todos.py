@@ -77,7 +77,7 @@ def get_todos_for_user(conn: sqlite3.Connection, user_id: int) -> list[dict[str,
     results = [dict(row) for row in cursor.fetchall()]
     return results
 
-def get_todo_by_id(conn: sqlite3.Connection, todo_id, user_id) -> dict[str, Any]:
+def get_todo_by_id(conn: sqlite3.Connection, todo_id, user_id) -> dict[str, Any] | None:
     cursor = conn.cursor()
     cursor.execute("""
         SELECT * FROM todos
@@ -85,7 +85,10 @@ def get_todo_by_id(conn: sqlite3.Connection, todo_id, user_id) -> dict[str, Any]
         AND user_id = ?           
         """, (todo_id, user_id))
     
-    return dict(cursor.fetchone())
+    result = cursor.fetchone()
+    if isinstance(result, sqlite3.Row):
+        return dict(result)
+    return None
 
 
 def update_todo_title(conn: sqlite3.Connection, todo_id: int, user_id: int, new_title: str) -> bool:
@@ -111,8 +114,15 @@ def toggle_todo_active(conn: sqlite3.Connection, todo_id: int, user_id: int) -> 
     return cursor.rowcount > 0
 
 
-def delete_todo() -> None:
-    pass
+def delete_todo(conn: sqlite3.Connection, todo_id: int, user_id: int) -> bool:
+    cursor = conn.cursor()
+    cursor.execute("""
+        DELETE FROM todos
+        WHERE todo_id = ?
+        AND user_id = ?
+        """, (todo_id, user_id))
+    conn.commit()
+    return cursor.rowcount > 0
 
 
 def count_todos() -> None:
@@ -136,6 +146,8 @@ def test() -> None:
         toggle_todo_active(conn, david_todo, david_id)
         print(get_todo_by_id(conn, david_todo, david_id))
         toggle_todo_active(conn, david_todo, david_id)
+        print(get_todo_by_id(conn, david_todo, david_id))
+        delete_todo(conn, david_todo, david_id)
         print(get_todo_by_id(conn, david_todo, david_id))
 
     finally:
