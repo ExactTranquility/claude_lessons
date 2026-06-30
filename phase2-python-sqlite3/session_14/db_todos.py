@@ -126,13 +126,17 @@ def delete_todo(conn: sqlite3.Connection, todo_id: int, user_id: int) -> bool:
     return cursor.rowcount > 0
 
 
-def count_todos() -> None:
-    pass
+def count_todos(conn: sqlite3.Connection) -> None:
+    count = conn.execute("""
+        SELECT COUNT(*) FROM todos
+        """)
+    return count.fetchone()[0]
 
 
 def test() -> None:
     conn = connect_db(master_database)
     try:
+        print(count_todos(conn))
         try:
             insert_user(conn, 'David', 'Password')
         except sqlite3.IntegrityError:
@@ -150,6 +154,7 @@ def test() -> None:
         print(get_todo_by_id(conn, david_todo, david_id))
         delete_todo(conn, david_todo, david_id)
         print(get_todo_by_id(conn, david_todo, david_id))
+        print(count_todos(conn))
 
     finally:
         conn.close()
