@@ -86,7 +86,7 @@ def get_todo_by_id(conn: sqlite3.Connection, todo_id: int, user_id: int) -> dict
         """, (todo_id, user_id))
     
     result = cursor.fetchone()
-    if isinstance(result, sqlite3.Row):
+    if result is not None:
         return dict(result)
     return None
 
