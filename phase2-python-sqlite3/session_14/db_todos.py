@@ -77,7 +77,7 @@ def get_todos_for_user(conn: sqlite3.Connection, user_id: int) -> list[dict[str,
     results = [dict(row) for row in cursor.fetchall()]
     return results
 
-def get_todo_by_id(conn: sqlite3.Connection, todo_id, user_id) -> dict[str, Any] | None:
+def get_todo_by_id(conn: sqlite3.Connection, todo_id: int, user_id: int) -> dict[str, Any] | None:
     cursor = conn.cursor()
     cursor.execute("""
         SELECT * FROM todos
