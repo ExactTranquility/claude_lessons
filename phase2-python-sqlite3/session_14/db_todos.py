@@ -99,6 +99,7 @@ def update_todo_title(conn: sqlite3.Connection, todo_id: int, user_id: int, new_
         WHERE todo_id = ?
         AND user_id = ?
         """, (new_title, todo_id, user_id))
+    conn.commit()
     return cursor.rowcount > 0
 
 
