@@ -58,7 +58,7 @@ def get_user_id_by_username(conn: sqlite3.Connection, username: str) -> int | No
 
 
 
-def insert_todo(conn: sqlite3.Connection, user_id: int, todo_title: str, todo_body:str='') -> int:
+def insert_todo(conn: sqlite3.Connection, user_id: int, todo_title: str, todo_body: str = '') -> int:
     cursor = conn.cursor()
     cursor.execute("""
         INSERT INTO todos
@@ -145,18 +145,19 @@ def test() -> None:
         except sqlite3.IntegrityError:
             print("Username already exist")
         david_id = get_user_id_by_username(conn, 'david')
-        print(david_id)
-        david_todo = insert_todo(conn, david_id, 'Test')
-        # print(get_todos_for_user(conn, david_id))
-        print(get_todo_by_id(conn, david_todo, david_id))
-        update_todo_title(conn, david_todo, david_id, 'Final')
-        print(get_todo_by_id(conn, david_todo, david_id))
-        toggle_todo_active(conn, david_todo, david_id)
-        print(get_todo_by_id(conn, david_todo, david_id))
-        toggle_todo_active(conn, david_todo, david_id)
-        print(get_todo_by_id(conn, david_todo, david_id))
-        delete_todo(conn, david_todo, david_id)
-        print(get_todo_by_id(conn, david_todo, david_id))
+        if david_id is not None:
+            print(david_id)
+            david_todo = insert_todo(conn, david_id, 'Test')
+            # print(get_todos_for_user(conn, david_id))
+            print(get_todo_by_id(conn, david_todo, david_id))
+            update_todo_title(conn, david_todo, david_id, 'Final')
+            print(get_todo_by_id(conn, david_todo, david_id))
+            toggle_todo_active(conn, david_todo, david_id)
+            print(get_todo_by_id(conn, david_todo, david_id))
+            toggle_todo_active(conn, david_todo, david_id)
+            print(get_todo_by_id(conn, david_todo, david_id))
+            delete_todo(conn, david_todo, david_id)
+            print(get_todo_by_id(conn, david_todo, david_id))
         print(count_todos(conn))
 
     finally:
